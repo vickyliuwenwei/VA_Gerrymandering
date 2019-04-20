@@ -12,7 +12,8 @@
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://d3js.org/d3-queue.v3.min.js"></script>
-        <script src="code/Test_Hist.js"></script>
+        <!-- <script src="code/Test_Hist.js"></script> -->
+        <script src="code/Histogram.js"></script>
 
         <title>VA Gerrymandering</title>
     </head>
@@ -20,18 +21,12 @@
     <body>
         <header>Visualization of Virginia Gerrymandering Histograms</header>
         <div class="title">
-            <h3>Airbnbs Within Walking Distance of an MBTA Stop</h3>
+            <h3>Visualizing 5 different metrics for Virgnia Gerrymandering</h3>
         </div>
-
-        <p id = "explain">This visualization offers a comparison by location of Airbnb listings based on data centered around each MBTA stop. The data can be filtered based on Airbnb room types and price range to provide an understanding of disparities or similarities of location within each type of listing. Using Airbnb data of 6247 Airbnbs, we are able to depict an aggregate overview of Boston neighborhoods based on a walkable distance (1 kilometer) from each MBTA stop.</p>
-    <!-- <script src="code/Histogram.js"></script> -->
-    
-
-    <!-- <script type="text/javascript">
-        d3.csv("data/prius_gas.csv", parser, 
-            function(error, csvdata) {
-        mpghist(csvdata);
-        });
-    </script> -->
+        <script type="text/javascript">
+            d3.csv("data/prius_gas.csv", parser, function(error, csvdata) {
+                mpghist(csvdata);
+            });
+        </script>
     </body>
 </html>
