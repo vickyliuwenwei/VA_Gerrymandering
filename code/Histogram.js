@@ -121,9 +121,3 @@ function mpghist(csvdata) {
     .style("text-anchor", "middle")
     .text("# of fill-ups");
 }
-
-// Read in .csv data and make graph
-d3.csv("https://vickyliuwenwei.github.io/VA_Gerrymandering/data/17_mms.csv", parser,
-       function(error, csvdata) {
-     mpghist(csvdata);
-});
