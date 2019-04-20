@@ -77,8 +77,6 @@ function mpghist(csvdata) {
     .attr("transform", "translate(" + margin.left + "," + 
             margin.top + ")");
 
-    svg.call(tip);
-
     // set up the bars
     var bar = svg.selectAll(".bar")
     .data(histdata)
