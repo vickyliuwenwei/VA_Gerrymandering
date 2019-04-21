@@ -130,7 +130,7 @@ function hist2(csvdata) {
   // var maxbin = 60;
   // var binsize = 2;
   // var numbins = (maxbin - minbin) / binsize;
-  var binmargin = .2; 
+  var binmargin = binsize/10; 
   var margin = {top: 10, right: 30, bottom: 50, left: 90};
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;

@@ -18,6 +18,10 @@
 				function(error, csvdata) {
 					hist2(csvdata);
 				});
+			d3.csv("data/plan_metrics_ATG17.csv", parser,
+				function(error, csvdata) {
+					hist3(csvdata);
+				});
 		</script>
 
 		<!-- <p> Test Run Done </p> -->
