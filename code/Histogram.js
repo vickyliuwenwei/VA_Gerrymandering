@@ -1,26 +1,13 @@
 function parser1(d) {
-    d.var = +d.nb_splits;
+    d.pvar = +d.nb_splits;
     return d;
 }
 
-// function parser2(d) {
-//     d.var = +d.nb_splits;
-//     return d;
-// }
-// function parser3(d) {
-//     d.var = +d.nb_splits;
-//     return d;
-// }
-// function parser4(d) {
-//     d.var = +d.nb_splits;
-//     return d;
-// }
-
-
-function hist(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.var; }));
+function hist(csvdata, varname) {
+  invar = eval(varname)
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.invar; }));
   console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.var; }));
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.invar; }));
   console.log(minbin);
   var numbins = 20;
   var binsize = Math.ceil((maxbin - minbin)/numbins);
@@ -46,69 +33,69 @@ function hist(csvdata) {
   }
 
   csvdata.forEach(function(d) {
-  var bin = Math.floor((d.var - minbin) / binsize);
+  var bin = Math.floor((d.pvar - minbin) / binsize);
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
     }
   });
 
-    // This scale is for determining the widths of the histogram bars
-    // Must start at 0 or else x(binsize a.k.a dx) will be negative
-    var x = d3.scale.linear()
-    .domain([0, (xmax - xmin)])
-    .range([0, width]);
+  // This scale is for determining the widths of the histogram bars
+  // Must start at 0 or else x(binsize a.k.a dx) will be negative
+  var x = d3.scale.linear()
+  .domain([0, (xmax - xmin)])
+  .range([0, width]);
 
-    // Scale for the placement of the bars
-    var x2 = d3.scale.linear()
-    .domain([xmin, xmax])
-    .range([0, width]);
+  // Scale for the placement of the bars
+  var x2 = d3.scale.linear()
+  .domain([xmin, xmax])
+  .range([0, width]);
 
-    // Make an array
-    var values = [];
-    csvdata.forEach(function(d) { values.push(d.var); });
+  // Make an array
+  var values = [];
+  csvdata.forEach(function(d) { values.push(d.invar); });
 
-    var y = d3.scale.linear()
-    .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
-    .range([height, 0]);
+  var y = d3.scale.linear()
+  .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
+  .range([height, 0]);
 
-    var xAxis = d3.svg.axis()
-    .scale(x2)
-    .orient("bottom");
-    var yAxis = d3.svg.axis()
-    .scale(y)
-    .ticks(8)
-    .orient("left");
+  var xAxis = d3.svg.axis()
+  .scale(x2)
+  .orient("bottom");
+  var yAxis = d3.svg.axis()
+  .scale(y)
+  .ticks(8)
+  .orient("left");
 
-    // put the graph in the "var" div
-    var svg = d3.select("#var").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  // put the graph in the "var" div
+  var svg = d3.select("#var").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // svg.call(tip);
+  // svg.call(tip);
 
-    // set up the bars
-    var bar = svg.selectAll(".bar")
-    .data(histdata)
-    .enter().append("g")
-    .attr("class", "bar")
-    .attr("transform", function(d, i) { 
-      return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
-    });
+  // set up the bars
+  var bar = svg.selectAll(".bar")
+  .data(histdata)
+  .enter().append("g")
+  .attr("class", "bar")
+  .attr("transform", function(d, i) { 
+    return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
+  });
 
     // add rectangles of correct size at correct location
-    bar.append("rect")
+  bar.append("rect")
   .attr("x", x(binmargin))
   .attr("width", x(binsize - 2*binmargin))
   .attr("height", function(d) { return height - y(d.numfill); });
 
     // add the x axis and x-label
-    svg.append("g")
+  svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + height + ")")
   .call(xAxis);
-    svg.append("text")
+  svg.append("text")
   .attr("class", "xlabel")
   .attr("text-anchor", "middle")
   .attr("x", width / 2)
@@ -116,11 +103,11 @@ function hist(csvdata) {
   .text("Number of Splits");
 
     // add the y axis and y-label
-    svg.append("g")
+  svg.append("g")
   .attr("class", "y axis")
   .attr("transform", "translate(0,0)")
   .call(yAxis);
-    svg.append("text")
+  svg.append("text")
   .attr("class", "ylabel")
   .attr("y", 0 - margin.left) // x and y switched due to rotation!!
   .attr("x", 0 - (height / 2))
