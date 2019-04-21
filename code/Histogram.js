@@ -136,8 +136,8 @@ function hist2(csvdata) {
   var height = 250 - margin.top - margin.bottom;
 
   // Set the limits of the x axis
-  var xmin = minbin - 1
-  var xmax = maxbin + 1
+  var xmin = minbin
+  var xmax = maxbin
 
   histdata = new Array(numbins);
   for (var i = 0; i < numbins; i++) {
@@ -262,7 +262,7 @@ function hist3(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pnbc - minbin) / binsize);
-  // console.log(bin)
+  console.log(bin)
   if (bin < histdata.length) {
       histdata[bin].numfill += 1;
     }
