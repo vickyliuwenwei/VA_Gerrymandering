@@ -1,5 +1,5 @@
 function parser(d) {
-    d.pMPG = +d.MPG;
+    d.pMPG = +d.nb_splits;
     // d.pOdometer = +d.Odometer;
     // d.pDate = new Date(d.Date);
     return d;
@@ -8,12 +8,12 @@ function parser(d) {
 var format = d3.time.format("%m/%d/%Y");
 
 function mpghist(csvdata) {
-  var maxbin = d3.max(csvdata, function(d) { return d.MPG; });
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_splits; }));
   console.log(maxbin);
-  var minbin = d3.min(csvdata, function(d) { return d.MPG; });
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
   console.log(minbin);
   var numbins = 20;
-  var binsize = Math.ceil((maxbin - minbin)/numbins*100)/100;
+  var binsize = Math.ceil((maxbin - minbin)/numbins);
   console.log(binsize);
   // var minbin = 36;
   // var maxbin = 60;
@@ -56,7 +56,7 @@ function mpghist(csvdata) {
 
     // Make an array with the mpg values
     var values = [];
-    csvdata.forEach(function(d) { values.push(d.MPG); });
+    csvdata.forEach(function(d) { values.push(d.nb_splits); });
 
     var y = d3.scale.linear()
     .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
