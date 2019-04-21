@@ -182,7 +182,7 @@ function hist2(csvdata) {
   .ticks(8)
   .orient("left");
 
-  // put the graph in the "varg" div
+  // put the graph in the "dtp" div
   var svg = d3.select("#dtp").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
@@ -197,7 +197,7 @@ function hist2(csvdata) {
   .enter().append("g")
   .attr("class", "bar")
   .attr("transform", function(d, i) { 
-    return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
+    return "translate(" + x2(i) + "," + y(d.numfill) + ")"; 
   });
 
     // add rectangles of correct size at correct location
