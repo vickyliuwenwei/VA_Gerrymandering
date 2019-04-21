@@ -148,8 +148,7 @@ function hist2(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pdratio - minbin)/ binsize);
-  // console.log(bin)
-  if (bin < histdata.length) {
+  if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
     }
   });
@@ -164,7 +163,7 @@ function hist2(csvdata) {
   var x2 = d3.scale.linear()
   .domain([xmin, xmax])
   .range([0, width]);
-
+  console.log(x2);
   // Make an array
   var values = [];
   csvdata.forEach(function(d) { values.push(d.perc_dem_vote ); });
@@ -262,7 +261,6 @@ function hist3(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pnbc - minbin) / binsize);
-  console.log(bin)
   if (bin < histdata.length) {
       histdata[bin].numfill += 1;
     }
