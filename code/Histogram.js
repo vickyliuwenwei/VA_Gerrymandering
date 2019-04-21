@@ -8,10 +8,13 @@ function parser(d) {
 var format = d3.time.format("%m/%d/%Y");
 
 function mpghist(csvdata) {
-  var binsize = 2;
-  var minbin = 36;
-  var maxbin = 60;
-  var numbins = (maxbin - minbin) / binsize;
+  var maxbin = d3.max(csvdata, function(d) { return d.MPG; });
+  var minbin = d3.min(csvdata, function(d) { return d.MPG; });
+  var numbins = 10;
+  var binsize = (maxbin - minbin)/numbins;
+  // var minbin = 36;
+  // var maxbin = 60;
+  // var numbins = (maxbin - minbin) / binsize;
   // whitespace on either side of the bars in units of MPG
   var binmargin = .2; 
   var margin = {top: 10, right: 30, bottom: 50, left: 60};
