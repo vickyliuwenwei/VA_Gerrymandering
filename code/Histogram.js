@@ -1,5 +1,5 @@
 function parser(d) {
-    d.psplt = +d.nb_splits;
+    d.psplt = + d.nb_splits;
     d.pdratio = +d.perc_dem_vote;
     return d;
 }
@@ -122,7 +122,7 @@ function hist2(csvdata) {
   var minbin = Math.floor(d3.min(csvdata, function(d) { return d.perc_dem_vote; }));
   console.log(minbin);
   var numbins = 20;
-  var binsize = Math.ceil((maxbin - minbin)/numbins);
+  var binsize = Math.ceil((maxbin - minbin)*100/numbins)/100;
   console.log(binsize);
   // var minbin = 36;
   // var maxbin = 60;
