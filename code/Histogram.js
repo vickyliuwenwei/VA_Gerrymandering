@@ -1,5 +1,3 @@
-// mpg.js: plot a histrogram from mpg data in a .csv file
-
 function parser(d) {
     d.pMPG = +d.MPG;
     // d.pOdometer = +d.Odometer;
@@ -35,9 +33,6 @@ function mpghist(csvdata) {
   var bin = Math.floor((d.pMPG - minbin) / binsize);
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
-    //   histdata[bin].meta += "<tr><td>" + d.City + " " + d.State + 
-    // "</td><td>" + format(d.pDate) + 
-    // "</td><td>" + d.pMPG.toFixed(1) + " mpg</td></tr>";
     }
   });
 
