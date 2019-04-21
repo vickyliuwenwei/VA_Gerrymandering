@@ -21,7 +21,7 @@ function mpghist(csvdata) {
   // var numbins = (maxbin - minbin) / binsize;
   // whitespace on either side of the bars in units of MPG
   var binmargin = .2; 
-  var margin = {top: 10, right: 30, bottom: 50, left: 60};
+  var margin = {top: 10, right: 30, bottom: 50, left: 90};
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
@@ -112,7 +112,7 @@ function mpghist(csvdata) {
   .attr("text-anchor", "middle")
   .attr("x", width / 2)
   .attr("y", height + margin.bottom)
-  .text("MPG");
+  .text("Number of Splits");
 
     // add the y axis and y-label
     svg.append("g")
