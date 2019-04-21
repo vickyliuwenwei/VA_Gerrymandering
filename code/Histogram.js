@@ -2,12 +2,10 @@ function parser1(d) {
     d.pvar = +d.nb_splits;
     return d;
 }
-
-function hist(pardata, varname) {
-  console.log(varname)
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.invar; }));
+function hist1(csvdata) {
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_splits; }));
   console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.invar; }));
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
   console.log(minbin);
   var numbins = 20;
   var binsize = Math.ceil((maxbin - minbin)/numbins);
@@ -52,7 +50,7 @@ function hist(pardata, varname) {
 
   // Make an array
   var values = [];
-  csvdata.forEach(function(d) { values.push(d.invar); });
+  csvdata.forEach(function(d) { values.push(d.nb_splits); });
 
   var y = d3.scale.linear()
   .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
