@@ -1,6 +1,6 @@
 function parser(d) {
     d.psplt = +d.nb_splits;
-    d.pdratio = +d.dem_to_rep_ratio;
+    d.pdratio = +d.perc_dem_vote;
     return d;
 }
 function hist1(csvdata) {
@@ -117,9 +117,9 @@ function hist1(csvdata) {
 }
 
 function hist2(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.dem_to_rep_ratio; }));
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.perc_dem_vote; }));
   console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.dem_to_rep_ratio; }));
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.perc_dem_vote; }));
   console.log(minbin);
   var numbins = 20;
   var binsize = Math.ceil((maxbin - minbin)/numbins);
@@ -164,7 +164,7 @@ function hist2(csvdata) {
 
   // Make an array
   var values = [];
-  csvdata.forEach(function(d) { values.push(d.dem_to_rep_ratio ); });
+  csvdata.forEach(function(d) { values.push(d.perc_dem_vote ); });
 
   var y = d3.scale.linear()
   .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
