@@ -126,7 +126,7 @@ function mpghist(csvdata) {
   .attr("dy", "1em")
   .attr("transform", "rotate(-90)")
   .style("text-anchor", "middle")
-  .text("# of fill-ups");
+  .text("CNT");
 }
 
 // Read in .csv data and make graphs

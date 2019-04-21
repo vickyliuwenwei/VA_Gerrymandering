@@ -17,34 +17,6 @@
 	</head>
 
 	<body>
-		<table id="summarytable">
-			<thead id="sumhead">
-				<tr>
-					<th colspan="2">
-						Prius Data
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Miles driven last fillup</td>
-					<td>421.0 miles</td>
-				</tr>
-				<tr>
-					<td>Most recent mpg</td>
-					<td>47.98 mpg</td>
-				</tr>
-				<tr>
-					<td>Lifetime mpg</td>
-					<td>49.14 mpg</td>
-				</tr>
-				<tr>
-					<td>Lifetime gas cost</td>
-					<td>$1407.29</td>
-				</tr>
-			</tbody>
-		</table>
-
 		<script type="text/javascript">
 			d3.csv("data/plan_metrics_ATG17.csv", parser,
 				function(error, csvdata) {
