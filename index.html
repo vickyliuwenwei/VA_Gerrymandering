@@ -18,9 +18,9 @@
 
 	<body>
 		<script type="text/javascript">
-			d3.csv("data/plan_metrics_ATG17.csv", parser,
+			d3.csv("data/VA_data/plan_metrics_ATG17.csv", parser1,
 				function(error, csvdata) {
-					mpghist(csvdata);
+					hist(csvdata);
 				}); // end of d3.csv
 		</script>
 

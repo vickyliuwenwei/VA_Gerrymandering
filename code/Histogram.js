@@ -1,16 +1,26 @@
-function parser(d) {
-    d.pMPG = +d.nb_splits;
-    // d.pOdometer = +d.Odometer;
-    // d.pDate = new Date(d.Date);
+function parser1(d) {
+    d.var = +d.nb_splits;
     return d;
 }
 
-var format = d3.time.format("%m/%d/%Y");
+// function parser2(d) {
+//     d.var = +d.nb_splits;
+//     return d;
+// }
+// function parser3(d) {
+//     d.var = +d.nb_splits;
+//     return d;
+// }
+// function parser4(d) {
+//     d.var = +d.nb_splits;
+//     return d;
+// }
 
-function mpghist(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_splits; }));
+
+function hist(csvdata) {
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.var; }));
   console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.var; }));
   console.log(minbin);
   var numbins = 20;
   var binsize = Math.ceil((maxbin - minbin)/numbins);
@@ -19,7 +29,6 @@ function mpghist(csvdata) {
   // var maxbin = 60;
   // var binsize = 2;
   // var numbins = (maxbin - minbin) / binsize;
-  // whitespace on either side of the bars in units of MPG
   var binmargin = .2; 
   var margin = {top: 10, right: 30, bottom: 50, left: 90};
   var width = 450 - margin.left - margin.right;
@@ -37,7 +46,7 @@ function mpghist(csvdata) {
   }
 
   csvdata.forEach(function(d) {
-  var bin = Math.floor((d.pMPG - minbin) / binsize);
+  var bin = Math.floor((d.var - minbin) / binsize);
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
     }
@@ -54,9 +63,9 @@ function mpghist(csvdata) {
     .domain([xmin, xmax])
     .range([0, width]);
 
-    // Make an array with the mpg values
+    // Make an array
     var values = [];
-    csvdata.forEach(function(d) { values.push(d.nb_splits); });
+    csvdata.forEach(function(d) { values.push(d.var); });
 
     var y = d3.scale.linear()
     .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
@@ -70,16 +79,8 @@ function mpghist(csvdata) {
     .ticks(8)
     .orient("left");
 
-  //   var tip = d3.tip()
-  // .attr('class', 'd3-tip')
-  // .direction('e')
-  // .offset([0, 20])
-  // .html(function(d) {
-  //     return '<table id="tiptable">' + d.meta + "</table>";
-  // });
-
-    // put the graph in the "mpg" div
-    var svg = d3.select("#mpg").append("svg")
+    // put the graph in the "var" div
+    var svg = d3.select("#var").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
