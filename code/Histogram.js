@@ -200,7 +200,7 @@ function hist2(csvdata) {
     console.log(i)
     console.log("d")
     console.log(d)
-    return "translate(" + (x2(i)*binsize+minbin) + "," + y(d.numfill) + ")"; 
+    return "translate(" + (x2(i)*binsize*2+minbin) + "," + y(d.numfill) + ")"; 
   });
 
     // add rectangles of correct size at correct location
