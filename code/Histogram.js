@@ -80,7 +80,8 @@ function hist1(csvdata) {
   .data(histdata)
   .enter().append("g")
   .attr("class", "bar")
-  .attr("transform", function(d, i) { 
+  .attr("transform", function(d, i) {
+    console.log("x2", x2);
     return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
   });
 
@@ -196,7 +197,7 @@ function hist2(csvdata) {
   .enter().append("g")
   .attr("class", "bar")
   .attr("transform", function(d, i) { 
-    console.log("x2(i)", x2(i));
+    console.log("x2", x2);
     return "translate(" + (x2(i)*binsize*2+minbin) + "," + y(d.numfill) + ")"; 
   });
 
@@ -310,6 +311,7 @@ function hist3(csvdata) {
   .enter().append("g")
   .attr("class", "bar")
   .attr("transform", function(d, i) {
+    console.log("x2", x2);
     return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
   });
 
