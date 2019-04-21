@@ -2,7 +2,7 @@
 
 function parser(d) {
     d.pMPG = +d.MPG;
-    // d.pOdometer = +d.Odometer;
+    d.pOdometer = +d.Odometer;
     // d.pDate = new Date(d.Date);
     return d;
 }
@@ -83,16 +83,16 @@ function mpghist(csvdata) {
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg.call(tip);
+    // svg.call(tip);
 
     // set up the bars
     var bar = svg.selectAll(".bar")
-  .data(histdata)
-  .enter().append("g")
-  .attr("class", "bar")
-  .attr("transform", function(d, i) { return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; })
-  .on('mouseover', tip.show)
-  .on('mouseout', tip.hide);
+    .data(histdata)
+    .enter().append("g")
+    .attr("class", "bar")
+    .attr("transform", function(d, i) { 
+      return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
+    });
 
     // add rectangles of correct size at correct location
     bar.append("rect")
