@@ -148,7 +148,7 @@ function hist2(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pdratio - minbin) / binsize);
-  console.log(bin)
+  // console.log(bin)
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
     }
@@ -262,7 +262,7 @@ function hist3(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pnbc - minbin) / binsize);
-  console.log(bin)
+  // console.log(bin)
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
     }
