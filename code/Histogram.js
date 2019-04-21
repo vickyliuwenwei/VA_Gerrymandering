@@ -123,7 +123,7 @@ function hist2(csvdata) {
   console.log(maxbin);
   var minbin = d3.min(csvdata, function(d) { return d.perc_dem_vote; });
   console.log(minbin);
-  var numbins = 20;
+  var numbins = 40;
   var binsize = Math.ceil((maxbin - minbin)*10000/numbins)/10000;
   console.log(binsize);
   // var minbin = 36;
@@ -153,6 +153,8 @@ function hist2(csvdata) {
     }
   });
 
+  console.log(histdata)
+
   // This scale is for determining the widths of the histogram bars
   // Must start at 0 or else x(binsize a.k.a dx) will be negative
   var x = d3.scale.linear()
@@ -163,7 +165,7 @@ function hist2(csvdata) {
   var x2 = d3.scale.linear()
   .domain([xmin, xmax])
   .range([0, width]);
-  console.log(x2);
+
   // Make an array
   var values = [];
   csvdata.forEach(function(d) { values.push(d.perc_dem_vote ); });
