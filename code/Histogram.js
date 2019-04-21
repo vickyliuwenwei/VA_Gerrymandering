@@ -119,9 +119,9 @@ function hist1(csvdata) {
 }
 
 function hist2(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.perc_dem_vote; })*100)/100;
+  var maxbin = d3.max(csvdata, function(d) { return d.perc_dem_vote; });
   console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.perc_dem_vote; })*100)/100;
+  var minbin = d3.min(csvdata, function(d) { return d.perc_dem_vote; });
   console.log(minbin);
   var numbins = 20;
   var binsize = Math.ceil((maxbin - minbin)*100/numbins)/100;
@@ -238,7 +238,7 @@ function hist3(csvdata) {
   var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_cuts; }));
   console.log(minbin);
   var numbins = 20;
-  var binsize = Math.ceil((maxbin - minbin)*100/numbins)/100;
+  var binsize = Math.ceil((maxbin - minbin)/numbins);
   console.log(binsize);
   // var minbin = 36;
   // var maxbin = 60;
@@ -262,6 +262,7 @@ function hist3(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pnbc - minbin) / binsize);
+  console.log(bin)
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
     }
@@ -295,7 +296,7 @@ function hist3(csvdata) {
   .orient("left");
 
   // put the graph in the "varg" div
-  var svg = d3.select("#dtp").append("svg")
+  var svg = d3.select("#nb_ct").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
