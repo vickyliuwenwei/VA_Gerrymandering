@@ -29,7 +29,7 @@ function hist1(csvdata) {
   histdata = new Array(numbins);
   for (var i = 0; i < numbins; i++) {
     if (i < histdata.length) {
-      histdata[i] = { numfill: 0, meta: "" };
+      histdata[i] = {numfill: 0};
     }
   }
 
