@@ -13,10 +13,10 @@ function mpghist(csvdata) {
   var minbin = d3.min(csvdata, function(d) { return d.MPG; });
   console.log(minbin);
   var numbins = 10;
-  var binsize = (maxbin - minbin)/numbins;
+  var binsize = Math.ceil((maxbin - minbin)/numbins);
   console.log(binsize);
-  // var minbin = 36;
-  // var maxbin = 60;
+  var minbin = 36;
+  var maxbin = 60;
   // var binsize = 2;
   // var numbins = (maxbin - minbin) / binsize;
   // whitespace on either side of the bars in units of MPG
