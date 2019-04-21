@@ -8,9 +8,9 @@ function parser(d) {
 var format = d3.time.format("%m/%d/%Y");
 
 function mpghist(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.MPG*100; }))/100;
+  var maxbin = d3.max(csvdata, function(d) { return d.MPG; });
   console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.MPG*100; }))/100;
+  var minbin = d3.min(csvdata, function(d) { return d.MPG; });
   console.log(minbin);
   var numbins = 20;
   var binsize = Math.ceil((maxbin - minbin)/numbins*100)/100;
