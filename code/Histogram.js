@@ -33,12 +33,12 @@ function mpghist(csvdata) {
 
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pMPG - minbin) / binsize);
-  // if ((bin.toString() != "NaN") && (bin < histdata.length)) {
-  //     histdata[bin].numfill += 1;
-  //     histdata[bin].meta += "<tr><td>" + d.City + " " + d.State + 
+  if ((bin.toString() != "NaN") && (bin < histdata.length)) {
+      histdata[bin].numfill += 1;
+      // histdata[bin].meta += "<tr><td>" + d.City + " " + d.State + 
   //   "</td><td>" + format(d.pDate) + 
   //   "</td><td>" + d.pMPG.toFixed(1) + " mpg</td></tr>";
-  //   }
+    }
   });
 
     // This scale is for determining the widths of the histogram bars
