@@ -124,7 +124,7 @@ function hist2(csvdata) {
   var minbin = d3.min(csvdata, function(d) { return d.perc_dem_vote; });
   console.log(minbin);
   var numbins = 20;
-  var binsize = Math.ceil((maxbin - minbin)*100/numbins)/100;
+  var binsize = Math.ceil((maxbin - minbin)*10000/numbins)/10000;
   console.log(binsize);
   // var minbin = 36;
   // var maxbin = 60;
@@ -147,9 +147,9 @@ function hist2(csvdata) {
   }
 
   csvdata.forEach(function(d) {
-  var bin = Math.floor((d.pdratio - minbin) / binsize);
+  var bin = Math.floor((d.pdratio - minbin)/ binsize);
   // console.log(bin)
-  if ((bin.toString() != "NaN") && (bin < histdata.length)) {
+  if (bin < histdata.length) {
       histdata[bin].numfill += 1;
     }
   });
@@ -263,7 +263,7 @@ function hist3(csvdata) {
   csvdata.forEach(function(d) {
   var bin = Math.floor((d.pnbc - minbin) / binsize);
   // console.log(bin)
-  if ((bin.toString() != "NaN") && (bin < histdata.length)) {
+  if (bin < histdata.length) {
       histdata[bin].numfill += 1;
     }
   });
