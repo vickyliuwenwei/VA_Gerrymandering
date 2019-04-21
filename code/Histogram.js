@@ -128,7 +128,3 @@ function mpghist(csvdata) {
 }
 
 // Read in .csv data and make graphs
-d3.csv("data/prius_gas.csv", parser,
-  function(error, csvdata) {
-    mpghist(csvdata);
-}); // end of d3.csv
