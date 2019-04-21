@@ -196,10 +196,10 @@ function hist2(csvdata) {
   .enter().append("g")
   .attr("class", "bar")
   .attr("transform", function(d, i) { 
-    console.log("i") 
-    console.log(i)
-    console.log("d")
-    console.log(d)
+    // console.log("i") 
+    // console.log(i)
+    // console.log("d")
+    // console.log(d)
     return "translate(" + (x2(i)*binsize*2+minbin) + "," + y(d.numfill) + ")"; 
   });
 
