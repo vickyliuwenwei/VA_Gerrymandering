@@ -3,8 +3,8 @@ function parser1(d) {
     return d;
 }
 
-function hist(csvdata, varname) {
-  invar = eval(varname)
+function hist(pardata, varname) {
+  console.log(varname)
   var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.invar; }));
   console.log(maxbin);
   var minbin = Math.floor(d3.min(csvdata, function(d) { return d.invar; }));
