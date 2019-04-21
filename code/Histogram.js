@@ -11,8 +11,7 @@ function hist1(csvdata) {
   var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
   console.log(minbin);
   var numbins = 20;
-  var binsize = Math.ceil((maxbin - minbin)/numbins);
-  console.log(binsize);
+  var binsize = 2;
   // var minbin = 36;
   // var maxbin = 60;
   // var binsize = 2;
@@ -124,7 +123,7 @@ function hist2(csvdata) {
   var minbin = d3.min(csvdata, function(d) { return d.perc_dem_vote; });
   console.log(minbin);
   var numbins = 40;
-  var binsize = Math.ceil((maxbin - minbin)*10000/numbins)/10000;
+  var binsize = 0.0002;
   console.log(binsize);
   // var minbin = 36;
   // var maxbin = 60;
@@ -197,7 +196,11 @@ function hist2(csvdata) {
   .enter().append("g")
   .attr("class", "bar")
   .attr("transform", function(d, i) { 
-    return "translate(" + x2(i) + "," + y(d.numfill) + ")"; 
+    console.log("i") 
+    console.log(i)
+    console.log("d")
+    console.log(d)
+    return "translate(" + (x2(i)*binsize+minbin) + "," + y(d.numfill) + ")"; 
   });
 
     // add rectangles of correct size at correct location
@@ -239,7 +242,7 @@ function hist3(csvdata) {
   var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_cuts; }));
   console.log(minbin);
   var numbins = 20;
-  var binsize = Math.ceil((maxbin - minbin)/numbins);
+  var binsize = 18;
   console.log(binsize);
   // var minbin = 36;
   // var maxbin = 60;
@@ -309,7 +312,7 @@ function hist3(csvdata) {
   .data(histdata)
   .enter().append("g")
   .attr("class", "bar")
-  .attr("transform", function(d, i) { 
+  .attr("transform", function(d, i) {
     return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
   });
 
