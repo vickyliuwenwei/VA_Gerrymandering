@@ -35,9 +35,9 @@ function mpghist(csvdata) {
   var bin = Math.floor((d.pMPG - minbin) / binsize);
   if ((bin.toString() != "NaN") && (bin < histdata.length)) {
       histdata[bin].numfill += 1;
-      // histdata[bin].meta += "<tr><td>" + d.City + " " + d.State + 
-  //   "</td><td>" + format(d.pDate) + 
-  //   "</td><td>" + d.pMPG.toFixed(1) + " mpg</td></tr>";
+    //   histdata[bin].meta += "<tr><td>" + d.City + " " + d.State + 
+    // "</td><td>" + format(d.pDate) + 
+    // "</td><td>" + d.pMPG.toFixed(1) + " mpg</td></tr>";
     }
   });
 
@@ -57,16 +57,16 @@ function mpghist(csvdata) {
     csvdata.forEach(function(d) { values.push(d.MPG); });
 
     var y = d3.scale.linear()
-  .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
-  .range([height, 0]);
+    .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
+    .range([height, 0]);
 
     var xAxis = d3.svg.axis()
-  .scale(x2)
-  .orient("bottom");
+    .scale(x2)
+    .orient("bottom");
     var yAxis = d3.svg.axis()
-  .scale(y)
-  .ticks(8)
-  .orient("left");
+    .scale(y)
+    .ticks(8)
+    .orient("left");
 
   //   var tip = d3.tip()
   // .attr('class', 'd3-tip')
@@ -78,10 +78,10 @@ function mpghist(csvdata) {
 
     // put the graph in the "mpg" div
     var svg = d3.select("#mpg").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // svg.call(tip);
 
@@ -131,5 +131,4 @@ function mpghist(csvdata) {
 d3.csv("data/prius_gas.csv", parser,
   function(error, csvdata) {
     mpghist(csvdata);
-     // milesovertime(csvdata);
 }); // end of d3.csv
