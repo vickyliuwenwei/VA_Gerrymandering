@@ -64,8 +64,8 @@ function hist1(csvdata) {
   .ticks(8)
   .orient("left");
 
-  // put the graph in the "var" div
-  var svg = d3.select("#var").append("svg")
+  // put the graph in the "varg" div
+  var svg = d3.select("#varg").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
