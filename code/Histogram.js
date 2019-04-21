@@ -2,7 +2,7 @@
 
 function parser(d) {
     d.pMPG = +d.MPG;
-    d.pOdometer = +d.Odometer;
+    // d.pOdometer = +d.Odometer;
     // d.pDate = new Date(d.Date);
     return d;
 }
