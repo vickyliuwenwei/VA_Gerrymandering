@@ -1,4 +1,11 @@
-function hist() {
+function parser(d) {
+    d.pnbs = + d.nb_splits;
+    d.pdratio = +d.perc_dem_vote;
+    d.pnbc = + d.nb_cuts;
+    return d;
+}
+
+function hist(csvdata) {
 
   var data = d3.range(1000).map(d3.randomBates(10));
 

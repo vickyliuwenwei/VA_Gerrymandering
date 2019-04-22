@@ -11,7 +11,10 @@
 
 	<body>
 		<script type="text/javascript">
-			hist();
+			d3.csv("data/VA_data/plan_metrics_ATG17.csv", parser,
+				function(error, csvdata) {
+					hist(csvdata);
+				});
 		</script>
 
 		<!-- <p> Test Run Done </p> -->
