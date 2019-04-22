@@ -276,7 +276,7 @@ function hist4(csvdata) {
   .attr("text-anchor", "middle")
   .attr("x", width / 2)
   .attr("y", height + margin.bottom)
-  .text("Efficiency Gap");
+  .text("Efficiency Gap (percentage) ");
 
   // add the y axis and y-label
   svg.append("g")
