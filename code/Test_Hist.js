@@ -56,10 +56,10 @@ function hist() {
   .text("Number of Splits");
 
   // add the y axis and y-label
-  svg.append("g")
-  .attr("class", "y axis")
-  .attr("transform", "translate(0,0)")
-  .call(yAxis);
+  // svg.append("g")
+  // .attr("class", "y axis")
+  // .attr("transform", "translate(0,0)")
+  // .call(yAxis);
 
   svg.append("text")
   .attr("class", "ylabel")
