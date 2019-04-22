@@ -7,8 +7,6 @@ function parser(d) {
 
 function hist(csvdata) {
 
-  var data = d3.range(1000).map(d3.randomBates(10));
-
   var formatCount = d3.format(",.0f");
   var margin = {top: 10, right: 30, bottom: 50, left: 90};
   var width = 450 - margin.left - margin.right;
