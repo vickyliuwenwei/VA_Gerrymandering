@@ -23,7 +23,7 @@ function hist(csvdata) {
   .range([height, 0]);
 
   var histogram = d3.histogram()
-  .value(function(d) { return d.pnbs; })
+  .value(function(d) { return d.nb_splits; })
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
@@ -32,10 +32,6 @@ function hist(csvdata) {
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  csvdata.forEach(function(d) {
-      d.pnbs = parseDate(d.nb_splits);
-  });
 
   var bins = histogram(csvdata)
 
