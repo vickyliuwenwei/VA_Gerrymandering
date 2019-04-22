@@ -14,27 +14,34 @@ function hist(csvdata) {
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_splits; }));
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
+
+  var xScale = d3.scaleLinear()
+  .domain([minbin, maxbin])
+  .rangeRound([0, width]);
+
+  var yScale = d3.scaleLinear()
+  .range([height, 0]);
+
+  var histogram = d3.histogram()
+  .value(function(d) { return d.pnbs; })
+  .domain(xScale.domain())
+  .thresholds(xScale.ticks(20)); // split into 20 bins
+
   var svg = d3.select("#nb_sp").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var xScale = d3.scaleLinear()
-  .rangeRound([0, width]);
+  csvdata.forEach(function(d) {
+      d.pnbs = parseDate(d.nb_splits);
+  });
 
-  var bins = d3.histogram()
-  .domain(xScale.domain()) 
-  .thresholds(xScale.ticks(20)) // split into 20 bins
-  (data);
+  var bins = histogram(csvdata)
 
-  var yScale = d3.scaleLinear()
-  .domain([0, d3.max(bins, function(d) { return d.length; })])
-  .range([height, 0]);
-
-  // put the graph in the "varg" div
-
-  console.log(bins)
+  yScale.domain([0, d3.max(bins, function(d) { return d.length; })]);
 
   // set up the bars
   var bar = svg.selectAll(".bar")
@@ -43,10 +50,9 @@ function hist(csvdata) {
   .append("g")
   .attr("class", "bar")
   .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; });
-
-    // add rectangles of correct size at correct location
+   
   var rects = bar.append("rect")
-  .attr("x", 1)
+  .attr("x", 1)// move 1px to right
   .attr("width", xScale(bins[0].x1) - xScale(bins[0].x0) - 1)
   .attr("height", function(d) { return height - yScale(d.length); }); 
 
@@ -64,10 +70,10 @@ function hist(csvdata) {
   .text("Number of Splits");
 
   // add the y axis and y-label
-  // svg.append("g")
-  // .attr("class", "y axis")
-  // .attr("transform", "translate(0,0)")
-  // .call(yAxis);
+  svg.append("g")
+  .attr("class", "y axis")
+  .attr("transform", "translate(0,0)")
+  .call(d3.axisLeft(yScale));
 
   svg.append("text")
   .attr("class", "ylabel")
@@ -77,11 +83,4 @@ function hist(csvdata) {
   .attr("transform", "rotate(-90)")
   .style("text-anchor", "middle")
   .text("Count");
-
-  bar.append("text")
-  .attr("y", 6) 
-  .attr("x", (xScale(bins[0].x1) - xScale(bins[0].x0)) / 2)
-  .attr("text-anchor", "middle")
-  .text(function(d) { return formatCount(d.length); })
-  .attr("dy", ".75em");
 }
