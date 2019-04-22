@@ -1,66 +1,86 @@
-var color = "steelblue";
+function parser(d) {
+    d.pnbs = + d.nb_splits;
+    d.pdratio = +d.perc_dem_vote;
+    d.pnbc = + d.nb_cuts;
+    return d;
+}
 
-// Generate a 1000 data points using normal distribution with mean=20, deviation=5
-var values = d3.range(1000).map(d3.random.normal(20, 5));
+function hist() {
 
-// A formatter for counts.
-var formatCount = d3.format(",.0f");
+  var data = d3.range(1000).map(d3.randomBates(10));
 
-var margin = {top: 20, right: 30, bottom: 30, left: 30},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  var formatCount = d3.format(",.0f");
+  var margin = {top: 10, right: 30, bottom: 50, left: 90};
+  var width = 450 - margin.left - margin.right;
+  var height = 250 - margin.top - margin.bottom;
 
-var max = d3.max(values);
-var min = d3.min(values);
-var x = d3.scale.linear()
-      .domain([min, max])
-      .range([0, width]);
+  var xScale = d3.scaleLinear()
+  .rangeRound([0, width]);
 
-// Generate a histogram using twenty uniformly-spaced bins.
-var data = d3.layout.histogram()
-    .bins(x.ticks(20))
-    (values);
+  var yScale = d3.scaleLinear()
+  .domain([0, d3.max(bins, function(d) { return d.length; })])
+  .range([height, 0]);
 
-var yMax = d3.max(data, function(d){return d.length});
-var yMin = d3.min(data, function(d){return d.length});
-var colorScale = d3.scale.linear()
-            .domain([yMin, yMax])
-            .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
-
-var y = d3.scale.linear()
-    .domain([0, yMax])
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+  // put the graph in the "varg" div
+  var svg = d3.select("#nb_sp").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var bar = svg.selectAll(".bar")
-    .data(data)
-  .enter().append("g")
-    .attr("class", "bar")
-    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+  var bins = d3.histogram()
+  .domain(xScale.domain()) 
+  .thresholds(xScale.ticks(20)) // split into 20 bins
+  (data);
 
-bar.append("rect")
-    .attr("x", 1)
-    .attr("width", (x(data[0].dx) - x(0)) - 1)
-    .attr("height", function(d) { return height - y(d.y); })
-    .attr("fill", function(d) { return colorScale(d.y) });
+  console.log(bins)
 
-bar.append("text")
-    .attr("dy", ".75em")
-    .attr("y", -12)
-    .attr("x", (x(data[0].dx) - x(0)) / 2)
-    .attr("text-anchor", "middle")
-    .text(function(d) { return formatCount(d.y); });
+  // set up the bars
+  var bar = svg.selectAll(".bar")
+  .data(bins)
+  .enter()  
+  .append("g")
+  .attr("class", "bar")
+  .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; });
 
-svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    // add rectangles of correct size at correct location
+  var rects = bar.append("rect")
+  .attr("x", 1)
+  .attr("width", xScale(bins[0].x1) - xScale(bins[0].x0) - 1)
+  .attr("height", function(d) { return height - yScale(d.length); }); 
+
+  // add the x axis and x-label
+  svg.append("g")
+  .attr("class", "axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(xScale));
+
+  svg.append("text")
+  .attr("class", "xlabel")
+  .attr("text-anchor", "middle")
+  .attr("x", width / 2)
+  .attr("y", height + margin.bottom)
+  .text("Number of Splits");
+
+  // add the y axis and y-label
+  svg.append("g")
+  .attr("class", "y axis")
+  .attr("transform", "translate(0,0)")
+  .call(yAxis);
+
+  svg.append("text")
+  .attr("class", "ylabel")
+  .attr("y", 0 - margin.left) // x and y switched due to rotation!!
+  .attr("x", 0 - (height / 2))
+  .attr("dy", "1em")
+  .attr("transform", "rotate(-90)")
+  .style("text-anchor", "middle")
+  .text("Count");
+
+  bar.append("text")
+  .attr("y", 6) 
+  .attr("x", (xScale(bins[0].x1) - xScale(bins[0].x0)) / 2)
+  .attr("text-anchor", "middle")
+  .text(function(d) { return formatCount(d.length); })
+  .attr("dy", ".75em");
+}

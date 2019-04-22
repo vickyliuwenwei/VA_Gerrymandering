@@ -5,31 +5,21 @@
 		<!-- <link rel="stylesheet" type="text/css" href="mpg.css" /> -->
 		<script src="code/lib/d3.v3.min.js"  charset="utf-8"></script>
 		<script src="code/lib/d3.tip.v0.6.3.js"></script>
-		<script src="code/Histogram.js" charset="utf-8"></script>
+		<!-- <script src="code/Histogram.js" charset="utf-8"></script> -->
+		<script src="code/Test_Hist.js" charset="utf-8"></script>
 	</head>
 
 	<body>
 		<script type="text/javascript">
-			d3.csv("data/plan_metrics_ATG17.csv", parser,
-				function(error, csvdata) {
-					hist1(csvdata);
-				});
-			d3.csv("data/plan_metrics_ATG17.csv", parser,
-				function(error, csvdata) {
-					hist2(csvdata);
-				});
-			d3.csv("data/plan_metrics_ATG17.csv", parser,
-				function(error, csvdata) {
-					hist3(csvdata);
-				});
+			hist();
 		</script>
 
 		<!-- <p> Test Run Done </p> -->
 		<div id="nb_sp" class="graph"></div>
-		<br>
+		<!-- <br>
 		<div id="dtp" class="graph"></div>
 		<br>
-		<div id="nb_ct" class="graph"></div>
+		<div id="nb_ct" class="graph"></div> -->
 		<footer>
             <p>&copy; Copyright 2019 &bull; Millie, Nhi, Vicky </p>
         </footer>
