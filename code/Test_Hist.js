@@ -7,6 +7,12 @@ function hist() {
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
+  var svg = d3.select("#nb_sp").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
   var xScale = d3.scaleLinear()
   .rangeRound([0, width]);
 
@@ -20,11 +26,6 @@ function hist() {
   .range([height, 0]);
 
   // put the graph in the "varg" div
-  var svg = d3.select("#nb_sp").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   console.log(bins)
 
