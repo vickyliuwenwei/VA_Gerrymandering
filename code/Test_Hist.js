@@ -86,8 +86,8 @@ function hist2(csvdata) {
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.perc_dem_vote; }));
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.perc_dem_vote; }));
+  var maxbin = d3.max(csvdata, function(d) { return d.perc_dem_vote; });
+  var minbin = d3.min(csvdata, function(d) { return d.perc_dem_vote; });
 
   var xScale = d3.scaleLinear()
   .domain([minbin, maxbin])
@@ -101,7 +101,7 @@ function hist2(csvdata) {
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
-  var svg = d3.select("#nb_sp").append("svg")
+  var svg = d3.select("#dtp").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -176,7 +176,7 @@ function hist3(csvdata) {
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
-  var svg = d3.select("#nb_sp").append("svg")
+  var svg = d3.select("#nb_ct").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
