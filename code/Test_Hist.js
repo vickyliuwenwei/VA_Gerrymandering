@@ -1,10 +1,3 @@
-function parser(d) {
-    d.pnbs = + d.nb_splits;
-    d.pdratio = +d.perc_dem_vote;
-    d.pnbc = + d.nb_cuts;
-    return d;
-}
-
 function hist() {
 
   var data = d3.range(1000).map(d3.randomBates(10));
@@ -17,6 +10,11 @@ function hist() {
   var xScale = d3.scaleLinear()
   .rangeRound([0, width]);
 
+  var bins = d3.histogram()
+  .domain(xScale.domain()) 
+  .thresholds(xScale.ticks(20)) // split into 20 bins
+  (data);
+
   var yScale = d3.scaleLinear()
   .domain([0, d3.max(bins, function(d) { return d.length; })])
   .range([height, 0]);
@@ -27,11 +25,6 @@ function hist() {
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  var bins = d3.histogram()
-  .domain(xScale.domain()) 
-  .thresholds(xScale.ticks(20)) // split into 20 bins
-  (data);
 
   console.log(bins)
 
