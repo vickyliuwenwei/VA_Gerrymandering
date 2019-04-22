@@ -227,8 +227,8 @@ function hist4(csvdata) {
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
-  var maxbin = d3.max(csvdata, function(d) { return d.election_ATG17_egs; });
-  var minbin =d3.min(csvdata, function(d) { return d.election_ATG17_egs; });
+  var maxbin = d3.max(csvdata, function(d) { return d.election_ATG17_egs*100; });
+  var minbin =d3.min(csvdata, function(d) { return d.election_ATG17_egs*100; });
 
   var xScale = d3.scaleLinear()
   .domain([minbin, maxbin])
@@ -238,7 +238,7 @@ function hist4(csvdata) {
   .range([height, 0]);
 
   var histogram = d3.histogram()
-  .value(function(d) { return d.election_ATG17_egs; })
+  .value(function(d) { return d.election_ATG17_egs*100; })
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
