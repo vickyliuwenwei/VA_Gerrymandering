@@ -5,8 +5,8 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_splits; }));
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
+  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d[col]; }));
+  var minbin = Math.floor(d3.min(csvdata, function(d) { return d[col]; }));
 
   var xScale = d3.scaleLinear()
   .domain([minbin, maxbin])
@@ -16,11 +16,11 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .range([height, 0]);
 
   var histogram = d3.histogram()
-  .value(function(d) { return d.nb_splits; })
+  .value(function(d) { return d[col]; })
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
-  var svg = d3.select("#nb_sp").append("svg")
+  var svg = d3.select(var_svg_id).append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
