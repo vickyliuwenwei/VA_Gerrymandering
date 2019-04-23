@@ -6,29 +6,30 @@
 		<script src="//d3js.org/d3.v4.min.js"></script>
 		<script src="code/lib/d3.tip.v0.6.3.js"></script>
 		<!-- <script src="code/Histogram.js" charset="utf-8"></script> -->
-		<script src="code/Test_Hist.js" charset="utf-8"></script>
+		<script src="code/Histogram.js" charset="utf-8"></script>
 	</head>
 
 	<body>
 		<script type="text/javascript">
 			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-					hist1(csvdata);
+					hist(csvdata, "nb_cuts", "#nb_ct");
+					hist(csvdata, "nb_splits", "#nb_sp");
 				});
-			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-					hist2(csvdata);
-				});
-			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-					hist3(csvdata);
-				});
-			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-					hist4(csvdata);
-				});
-			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-					hist5(csvdata);
-				});
-			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-					hist6(csvdata);
-				});
+			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
+			// 		hist2(csvdata);
+			// 	});
+			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
+			// 		hist3(csvdata);
+			// 	});
+			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
+			// 		hist4(csvdata);
+			// 	});
+			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
+			// 		hist5(csvdata);
+			// 	});
+			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
+			// 		hist6(csvdata);
+			// 	});
 		</script>
 
 		<!-- <p> Test Run Done </p> -->
