@@ -1,4 +1,4 @@
-function hist(csvdata, col, var_svg_id) {
+function hist(csvdata, col, var_svg_id, x_lab) {
 
   var formatCount = d3.format(",.0f");
   var margin = {top: 10, right: 30, bottom: 50, left: 90};
@@ -54,7 +54,7 @@ function hist(csvdata, col, var_svg_id) {
   .attr("text-anchor", "middle")
   .attr("x", width / 2)
   .attr("y", height + margin.bottom)
-  .text("Number of Splits");
+  .text(x_lab);
 
   // add the y axis and y-label
   svg.append("g")
