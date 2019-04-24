@@ -13,7 +13,7 @@
 		<script type="text/javascript">
 			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
 					hist(csvdata, "nb_cuts", "#nb_ct", "Number of Cuts");
-					hist(csvdata, "nb_splits", "#nb_sp", "Number of Splits");
+					hist(csvdata, "nb_splits", "#nb_ct", "Number of Splits");
 				});
 			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
 			// 		hist2(csvdata);
@@ -37,8 +37,8 @@
 		<br>
 		<div id="dtp" class="graph"></div>
 		<br>
-		<div id="nb_ct" class="graph"></div>
-		<br>
+		<!-- <div id="nb_ct" class="graph"></div> -->
+		<!-- <br> -->
 		<div id="egs" class="graph"></div>
 		<br>
 		<div id="hmss" class="graph"></div>
