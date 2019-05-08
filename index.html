@@ -13,7 +13,7 @@
 		<script type="text/javascript">
 			d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
 					hist(csvdata, "nb_cuts", "#nb_ct", "Number of Cuts");
-					hist(csvdata, "nb_sp", "#nb_ct", "Number of Cuts");
+					hist(csvdata, "nb_sp", "#nb_sp", "Number of Cuts");
 				});
 			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
 			// 		hist2(csvdata);
@@ -34,6 +34,7 @@
 
 		<!-- <p> Test Run Done </p> -->
 		<div id="nb_ct" class="graph"></div>
+		<div id="nb_sp" class="graph"></div>
 		<br>
 		<footer>
             <p>&copy; Copyright 2019 &bull; Vicky </p>
