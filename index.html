@@ -10,14 +10,14 @@
 	</head>
 
 	<body>
-		<div class="dropdown">
-		  <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-		  <div id="myDropdown" class="dropdown-content">
-		    <a href="#">Link 1</a>
-		    <a href="#">Link 2</a>
-		    <a href="#">Link 3</a>
-		  </div>
-		</div>
+		<select id="d3-dropdown">
+		  <option value="first">First</option>
+		  <option value="second">Second</option>
+		  <option value="third">Third</option>
+		  <option value="forth">Forth</option>
+		</select>
+
+		<p id="selected-dropdown"></p>
 		
 		<script type="text/javascript">
 			var dataLoaded = function(error, csvdata, csvdata2) {
