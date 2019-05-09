@@ -12,7 +12,7 @@
 	<body>
 		<script type="text/javascript">
 			d3.csv("data/plan_metrics_ATG17.csv", "data/plan_metrics_ATG17_2.csv", 
-				function(error, csvdata, csvdat2) {
+				function(error, csvdata, csvdata2) {
 					hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
 				});
 			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
