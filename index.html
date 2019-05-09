@@ -32,8 +32,21 @@
 			};
 
 			startHere();
+		</script>
 
-			var imageList = [
+		
+		<div id="nb_ct" class="graph"></div>
+
+		<img src="img/compare/mms.png"/>
+	    <select id="picDD">
+	        <option value="1" selected>Mean-Median</option>
+	        <option value="2">Efficiency Gap</option>
+	        <option value="3">Number of Seats won by Democratic</option>
+	        <option value="4">Number of Cuts</option>
+	    </select>
+
+	    <script text = "text/javascript">
+	    var imageList = [
 		    "img/compare/mms.png",
 		    "img/compare/egs.png",
 		    "img/compare/hmss.png",
@@ -43,25 +56,7 @@
 			    var val = parseInt($('#picDD').val());
 			    $('img').attr("src",imageList[val]);
 			});
-		</script>
-
-		
-		<div id="nb_ct" class="graph"></div>
-<!-- 		<img src="img/compare/mms.png" />
-		<select id="picDD">
-		    <option value="1" selected>Mean-Median</option>
-		    <option value="2">Efficiency Gap</option>
-		    <option value="3">Number of Seats won by Democratic</option>
-		    <option value="4">Number of Cuts</option>
-		</select> -->
-
-		<img src="img/compare/mms.png"/>
-	    <select id="picDD">
-	        <option value="1" selected>Mean-Median</option>
-	        <option value="2">Efficiency Gap</option>
-	        <option value="3">Number of Seats won by Democratic</option>
-	        <option value="4">Number of Cuts</option>
-	    </select>
+	    </script>
 
 		<br>
 		<footer>
