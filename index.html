@@ -32,27 +32,38 @@
 			};
 
 			startHere();
-			var pictureList = [
-			    "img/compare/pres.png",
-			    "img/compare/egs.png",
-			    "img/compare/hmss.png",
-			    "img/compare/nb_cuts.png"];
 
-			$('#picDD').change(function () {
-			    var val = parseInt($('#picDD').val());
-			    $('img').attr("src",pictureList[val]);
-			});
+			var imageList = [
+		    "img/compare/mms.png",
+		    "img/compare/egs.png",
+		    "img/compare/hmss.png",
+		    "img/compare/nb_cuts.png"];
+
+			function switchImage() {
+			    var selectedImage = document.myForm.switch.options[document.myForm.switch.selectedIndex].value;
+			    document.myImage.src = imageList[selectedImage].src;
+			}
 		</script>
 
 		
 		<div id="nb_ct" class="graph"></div>
-		<img src="mg/compare/pres.png" />
+<!-- 		<img src="img/compare/mms.png" />
 		<select id="picDD">
-		    <option value="1" selected>Presidential</option>
-		    <option value="2">Picute 2</option>
-		    <option value="3">Picute 3</option>
-		    <option value="4">Picute 4</option>
-		</select>
+		    <option value="1" selected>Mean-Median</option>
+		    <option value="2">Efficiency Gap</option>
+		    <option value="3">Number of Seats won by Democratic</option>
+		    <option value="4">Number of Cuts</option>
+		</select> -->
+
+		<img src="img/compare/mms.png" width="70" height="70" name="myImage" />
+		<form method="" action="" name="myForm">
+		    <select size="8" name="switch" onchange="switchImage();">
+		        <option value="1" selected>Mean-Median</option>
+		        <option value="2">Efficiency Gap</option>
+		        <option value="3">Number of Seats won by Democratic</option>
+		        <option value="4">Number of Cuts</option>
+		    </select>
+		</form>
 
 		<br>
 		<footer>
