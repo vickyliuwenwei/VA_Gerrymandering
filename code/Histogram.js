@@ -1,3 +1,6 @@
+
+var created;
+
 function hist(csvdata, col, var_svg_id, x_lab) {
 
   var formatCount = d3.format(",.0f");
@@ -20,11 +23,14 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
-  var svg = d3.select(var_svg_id).append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  if (created = false) {
+    var svg = d3.select(var_svg_id).append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    created = true
+  }
 
   var bins = histogram(csvdata)
 
