@@ -1,5 +1,6 @@
 
-var created;
+var created = false;
+var svg;
 
 function hist(csvdata, col, var_svg_id, x_lab) {
 
@@ -24,12 +25,13 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
   if (created = false) {
-    var svg = d3.select(var_svg_id).append("svg")
+    console.log("vis");
+    svg = d3.select(var_svg_id).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    created = true
+    created = true;
   }
 
   var bins = histogram(csvdata)
