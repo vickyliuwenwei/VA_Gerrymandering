@@ -3,6 +3,7 @@ var created = false;
 var svg;
 
 function hist(csvdata, col, var_svg_id, x_lab) {
+  console.log(created);
 
   var formatCount = d3.format(",.0f");
   var margin = {top: 10, right: 30, bottom: 50, left: 90};
