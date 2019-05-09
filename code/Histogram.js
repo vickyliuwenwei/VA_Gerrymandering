@@ -2,7 +2,7 @@
 var created = false;
 var svg;
 
-function hist(csvdata, col, var_svg_id, x_lab) {
+function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
   console.log(created);
 
   var formatCount = d3.format(",.0f");
@@ -15,7 +15,7 @@ function hist(csvdata, col, var_svg_id, x_lab) {
 
   var xScale = d3.scaleLinear()
   .domain([minbin, maxbin])
-  .rangeRound([0, width]);
+  .range([0, width]); 
 
   var yScale = d3.scaleLinear()
   .range([height, 0]);
@@ -25,32 +25,53 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
-  if (created == false) {
-    console.log("vis");
-    svg = d3.select(var_svg_id).append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    created = true;
-  }
+  
+  svg = d3.select(var_svg_id).append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  created = true;
 
   var bins = histogram(csvdata)
+  var bins2 = histogram(csvdata2)
 
   yScale.domain([0, d3.max(bins, function(d) { return d.length; })]);
 
   // set up the bars
-  var bar = svg.selectAll(".bar")
-  .data(bins)
-  .enter()  
-  .append("g")
-  .attr("class", "bar")
-  .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; });
+  // var bar = svg.selectAll(".bar")
+  // .data(bins)
+  // .enter()  
+  // .append("g")
+  // .attr("class", "bar")
+  // .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; });
    
-  var rects = bar.append("rect")
-  .attr("x", 1)// move 1px to right
+  // var rects = bar.append("rect")
+  // .attr("x", 1)// move 1px to right
+  // .attr("width", xScale(bins[0].x1) - xScale(bins[0].x0) - 1)
+  // .attr("height", function(d) { return height - yScale(d.length); });
+  
+  svg.selectAll("rect")
+  .data(bins)
+  .enter()
+  .append("rect")
+  .attr("x", 1)
+  .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; })
   .attr("width", xScale(bins[0].x1) - xScale(bins[0].x0) - 1)
-  .attr("height", function(d) { return height - yScale(d.length); }); 
+  .attr("height", function(d) { return height - yScale(d.length); })
+  .style("fill", "#69b3a2")
+  .style("opacity", 0.4);
+
+  svg.selectAll("rect")
+  .data(bins2)
+  .enter()
+  .append("rect")
+  .attr("x", 1)
+  .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; })
+  .attr("width", xScale(bins2[0].x1) - xScale(bins2[0].x0) - 1)
+  .attr("height", function(d) { return height - yScale(d.length); })
+  .style("fill", "#404080")
+  .style("opacity", 0.4);
 
   // add the x axis and x-label
   svg.append("g")
@@ -63,7 +84,7 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .attr("text-anchor", "middle")
   .attr("x", width / 2)
   .attr("y", height + margin.bottom)
-  .text(x_lab);
+  .text(x_lab); 
 
   // add the y axis and y-label
   svg.append("g")
@@ -79,4 +100,10 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .attr("transform", "rotate(-90)")
   .style("text-anchor", "middle")
   .text("Count");
+
+  svg.append("circle").attr("cx",300).attr("cy",30).attr("r", 6).style("fill", "#69b3a2")
+  svg.append("circle").attr("cx",300).attr("cy",60).attr("r", 6).style("fill", "#404080")
+  svg.append("text").attr("x", 320).attr("y", 30).text("Entire Data").style("font-size", "15px").attr("alignment-baseline","middle")
+  svg.append("text").attr("x", 320).attr("y", 60).text("Filtered Data").style("font-size", "15px").attr("alignment-baseline","middle")
+
 }
