@@ -11,10 +11,18 @@
 
 	<body>
 		<script type="text/javascript">
-			d3.csv("data/plan_metrics_ATG17.csv", "data/plan_metrics_ATG17_2.csv", 
-				function(error, csvdata, csvdata2) {
-					hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
-				});
+			var dataLoaded = function(error, csvdata, csvdata2) {
+				hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
+			};
+
+			var startHere = function(){
+				var q = d3.queue();
+				q.defer(d3.csv, "data/plan_metrics_ATG17.csv")
+				.defer(d3.csv, "data/plan_metrics_ATG17_2.csv")
+				.await(dataLoaded);
+			};
+
+			startHere();
 			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
 			// 		hist2(csvdata);
 			// 	});
