@@ -25,7 +25,7 @@ function hist(csvdata, col, var_svg_id, x_lab) {
   .domain(xScale.domain())
   .thresholds(xScale.ticks(20)); // split into 20 bins
 
-  if (created = false) {
+  if (created == false) {
     console.log("vis");
     svg = d3.select(var_svg_id).append("svg")
     .attr("width", width + margin.left + margin.right)
