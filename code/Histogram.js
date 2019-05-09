@@ -62,7 +62,7 @@ function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
   .style("fill", "#69b3a2")
   .style("opacity", 0.4);
 
-  svg.selectAll("rect")
+  svg.selectAll("rect2")
   .data(bins2)
   .enter()
   .append("rect")
