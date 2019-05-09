@@ -18,7 +18,7 @@
 		</select>
 
 		<p id="selected-dropdown"></p>
-		
+
 		<script type="text/javascript">
 			var dataLoaded = function(error, csvdata, csvdata2) {
 				hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
@@ -32,26 +32,27 @@
 			};
 
 			startHere();
-			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-			// 		hist2(csvdata);
-			// 	});
-			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-			// 		hist3(csvdata);
-			// 	});
-			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-			// 		hist4(csvdata);
-			// 	});
-			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-			// 		hist5(csvdata);
-			// 	});
-			// d3.csv("data/plan_metrics_ATG17.csv", function(error, csvdata) {
-			// 		hist6(csvdata);
-			// 	});
+			var pictureList = [
+			    "img/compare/pres.png",
+			    "img/compare/egs.png",
+			    "img/compare/hmss.png",
+			    "img/compare/nb_cuts.png"];
+
+			$('#picDD').change(function () {
+			    var val = parseInt($('#picDD').val());
+			    $('img').attr("src",pictureList[val]);
+			});
 		</script>
 
-		<!-- <p> Test Run Done </p> -->
+		
 		<div id="nb_ct" class="graph"></div>
-		<!-- <div id="nb_sp" class="graph"></div> -->
+		<img src="mg/compare/pres.png" />
+		<select id="picDD">
+		    <option value="1" selected>Presidential</option>
+		    <option value="2">Picute 2</option>
+		    <option value="3">Picute 3</option>
+		    <option value="4">Picute 4</option>
+		</select>
 
 		<br>
 		<footer>
