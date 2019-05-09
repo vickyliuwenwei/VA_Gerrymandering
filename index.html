@@ -10,6 +10,15 @@
 	</head>
 
 	<body>
+		<div class="dropdown">
+		  <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+		  <div id="myDropdown" class="dropdown-content">
+		    <a href="#">Link 1</a>
+		    <a href="#">Link 2</a>
+		    <a href="#">Link 3</a>
+		  </div>
+		</div>
+		
 		<script type="text/javascript">
 			var dataLoaded = function(error, csvdata, csvdata2) {
 				hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
