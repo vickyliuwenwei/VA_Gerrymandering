@@ -11,11 +11,12 @@
 
 	<body>
 		<select id="description" onchange="disp_text()">
-		  <option value="1">Mean-Median</option>
-		  <option value="2">Efficiency Gap</option>
-		  <option value="3">Number of Seats won by Democratic</option>
-		  <option value="4">Number of Cuts</option>
-		  <option value="5">Number of Splits</option>
+			<option value="0">Choose 1 definition: </option>
+			<option value="1">Mean-Median</option>
+			<option value="2">Efficiency Gap</option>
+			<option value="3">Number of Seats won by Democratic</option>
+			<option value="4">Number of Cuts</option>
+			<option value="5">Number of Splits</option>
 		</select>
 
 		<div id="message"></div>
@@ -34,7 +35,7 @@
 			        document.getElementById("message").innerHTML = "When you split a state into squares, the number of times each district are splited into squares.";
 			    }  
 			    else{
-			        document.getElementById("message").innerHTML = "Others";
+			        document.getElementById("message").innerHTML = "";
 			    }        
 			}
 	    </script>
