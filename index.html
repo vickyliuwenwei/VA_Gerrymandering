@@ -39,166 +39,219 @@
     </head>
 
     <body>
-        <header>6.894 Interactive Data Visualization Final Project</header>
+        <div id = "frame1">
+            <header>6.894 Interactive Data Visualization Final Project</header>
+            <div class = "sub-title">
+                <p>
+                    Team Members: Chuyan Millie Huang, Wenwei Vicky Liu, Kim-Anh Nhi
+                </p>
+                <br>
+                <p>
+                    In Collaboration with the Metric Geometry and Gerrymandering Group (MGGG) @ MIT CSAIL
+                </p>
+            </div>
+            <div class = "explain">
+
+                <p> <b>Gerrymandering</b> is a practice intended to establish a political advantage for a particular party of group by manipulating district boundaries. 
+
+                Historically, different measurements of gerrymandering have been presented to courts to support rationales to claim illegal gerrymandering. There is not yet a universally agreed-upon metric for evaluating splitting of municipal units with districting plans. Commonly used metrics usually focus on either geographical compactness (number of cuts and splits) or i (efficiency gap, mean-median, number of seats won by a certain Party).  
+
+                However, there is intricate interplay between the legal constraints and the measurements of interes, and among the measurements themselves. Researchers have struggled to understand the trade-offs between these intertwined metrics. 
+
+                We partner with researchers from the Metric Geometry and Gerrymandering Group (MGGG) at MIT CSAIL to design an interactive data visualization system to:
+                Unveil some hidden interactions between these metrics
+                Demystify some common false beliefs
+                Propose a novel way of looking at gerrymandering for policy makers and the general public
+                </p>
+            </div>
+
+            <figure><img src="images/Simulated_plan.png" class="sk" alt="Sketch_sim"/><figcaption>Simulated Plan for 11 Districts in Virginia</figcaption></figure>
+
+            <p>Please, see our write-up <a href="http://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/writeup.html">here</a>.</p>
+        </div>
         
-        <p id = "explain"> Gerrymandering is a practice intended to establish a political advantage for a particular party of group by manipulating district boundaries. The Metric Geometry and Gerrymandering Group (MGGG) is a research group from Tufts University and MIT that focuses on applications of geometry and computing to U.S. redistricting and gerrymandering. They conduct research on the redistricting problem, build open-source tools and resources to enable the public to better understand districts and consequences and offer expertise opinion to different stakeholders on all sides. They specifically interested in the interplay between the legal constraints and the measurements of interes and among the measurements themselves and the researchers have struggled to understand the trade-offs between these intertwined metrics. This is where we come in to help with an interactive data visualization system.
 
-        </p>
+        <div id = "frame2">
+            <div class="filter_title">
+                <h3>Interactive plan metric distributions</h3>
+            </div>
 
-        <h5><p> Here is an example of a simulated districting plan</p></h5>
+            <div id = "left2">
 
-        <figure><img src="images/Simulated_plan.png" class="sk" alt="Sketch_sim"/><figcaption>Simulated Plan for 11 Districts in Virginia</figcaption></figure>
+                <p> Here are the definitions for you to choose from </p>
 
-        <p>Please, see our write-up <a href="http://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/writeup.html">here</a>.</p>
+                <select id="description" onchange="disp_text()">
+                    <option value="0">Choose one definition: </option>
+                    <option value="3">Number of Seats won by Democratic</option>
+                    <option value="1">Mean-Median</option>
+                    <option value="2">Efficiency Gap</option>
+                    <option value="4">Number of Cuts</option>
+                </select>
 
-        <div class="filter_title">
-            <h3>Interactive plan metric distributions</h3>
-        </div>
+                <div id="message"></div>
 
-        <div class = "left">
-
-            <p> Here are the definitions for you to choose from </p>
-
-            <select id="description" onchange="disp_text()">
-                <option value="0">Choose one definition: </option>
-                <option value="1">Number of Cuts</option>
-                <option value="2">Democratic vote shares for the most democratic district</option>
-                <option value="3">Mean-Median</option>
-                <option value="3">Number of Seats won by Democratic</option>
-                
-                <option value="2">Efficiency Gap</option>
-                
-            </select>
-
-            <div id="message"></div>
-
-            <br>
-
-            
-
-        </div>
-
-        <div class = "right">
-            <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
-
-            <select id="chooseData" onchange="changeDataPath()">
-                <option value="0" selected >Virgina</option>
-                <option value="1">Pennsylvania</option>
-            </select>
-
-            <div class="side-filter">
-
-                <p>Choose a metric to filter on:</p><br>
-
-                <div class="control">
-                    <label class="radioMetric">Number of cuts</label>
-                    <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
-                    <label class="radioMetric">Democratic vote shares for the most democratic district</label>
-                    <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
-                    <label class="radioMetric">Mean-Median</label>
-                    <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
-                    <label class="radioMetric">Number of Democratic seats</label>
-                    <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
-                    <label class="radioMetric">Efficiency gap</label>
-                    <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
-                </div>
+                <br>
             </div>
 
 
-            <div id="vaContainer" >
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
-                        <svg id="nb_cuts"> 
-                            <br>s
-                        </svg>
+        
+            <div id = "right2">
+                <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
+
+                <select id="chooseData" onchange="changeDataPath()">
+                    <option value="0" selected >Virgina</option>
+                    <option value="1">Pennsylvania</option>
+                </select>
+
+
+
+                <div class="side-filter">
+                    <p>Choose a metric to filter on:</p><br>
+                    <div class="control">
+                        <label class="radioMetric">
+                             Number of cuts
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
+                        <br>
+                        <label class="radioMetric">
+                            Democratic vote shares for the most democratic district
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
+                        
+                        <br>
+                        <label class="radioMetric">
+                            Mean-Median
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
+                        <br>
+                        <label class="radioMetric">
+                            Number of Democratic seats
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
+                        <br>
+
+                        <label class="radioMetric">
+                             Efficiency gap
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
+                    </div>
                 </div>
 
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
-                        <svg id="p_votes">
-                            <br>
-                        </svg>
-                </div>
-            
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
-                        <svg id="mms">
-                            <br>
-                        </svg>
-                </div>
 
-                <div class="column">   
-                        <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
-                        <svg id="hmss">
-                            <br>
-                        </svg>
+                <div class="vaContainer1">          
+                
+                    <div class="column1">
+                            <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
+                            <svg id="nb_cuts"> 
+                                <br>
+                            </svg>
+                    </div>
+                    <div class="column1">
+                            <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
+                            <svg id="p_votes">
+                                <br>
+                            </svg>
+                    </div>
                 </div>
-
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
-                        <svg id = "egs">
-                        </svg>
+                <div class="vaContainer1">
+                    <div class="column">
+                            <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
+                            <svg id="mms">
+                                <br>
+                            </svg>
+                    </div>
+                    <div class="column">   
+                            <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
+                            <svg id="hmss">
+                                <br>
+                            </svg>
+                    </div>
+                    <div class="column">
+                            <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
+                            <svg id = "egs">
+                            </svg>
+                    </div>
                 </div>
             </div>
+        </div>
+
+
+        <div id = "frame3">
+            <p>Have you seen? PUT THE ANSWERS FROM THE HISTOGRAM EXPLORATION</p>
         </div>
 
         <!-- Part 2: Given 3 plan maps and let user click one to show plan's 6 metrics on corresponding global distribution -->
-        <div id="maps"></div>
-        <p>Map 1</p>
-        <img src="images/map10000.png" onclick="map_highlight(1)" />
-        <p>Map 2</p>
-        <img src="images/map12000.png" onclick="map_highlight(2)" />
-        <p>Map 3</p>
-        <img src="images/map14000.png" onclick="map_highlight(3)" />
-
-        <div id="vaContainer2">
-            <div class="column">
-                <p class="title_hist">Distribution of the <b>Number of Cuts</b> across possible districting plans</p>
-                <svg id="cuts2"> 
-                    <br>
-                </svg>
-            </div>
-            <div class="column">
-                <p class="title_hist">Distribution of the <b>Percentage of Democratic Votes for the Most Democratic District</b> across possible districting plans</p>
-                <svg id="p_votes2"> 
-                    <br>
-                </svg>
+        <div id = "frame4">
+            <div id = "left4">
+                SOME TEXT
             </div>
             
-            <div class="column">
-                <p class="title_hist">Distribution of the <b>Mean Median</b> across possible districting plans</p>
-                <svg id="mms2"> 
-                    <br>
-                </svg>
-            </div>
-            <div class="column">
-                <p class="title_hist">Distribution of the <b>Number of Democratic Seats</b> across possible districting plans</p>
-                <svg id="hmss2"> 
-                    <br>
-                </svg>
-            </div>
+            <div id = "right4">
+                <div id="maps">
+                    <p>Map 1</p>
+                    <img src="images/map10000.png" onclick="map_highlight(1)" />
+                    <p>Map 2</p>
+                    <img src="images/map12000.png" onclick="map_highlight(2)" />
+                    <p>Map 3</p>
+                    <img src="images/map14000.png" onclick="map_highlight(3)" />
 
-            <div class="column">
-                <p class="title_hist">Distribution of the <b>Efficiency Gap</b> across possible districting plans</p>
-                <svg id="egs2"> 
-                    <br>
-                </svg>
+                </div>
+                <div class="vaContainer2">
+                    <div class="column1">
+                        <p class="title_hist">Distribution of the <b>Number of Cuts</b> across possible districting plans</p>
+                        <svg id="cuts2"> 
+                            <br>
+                        </svg>
+                    </div>
+                    <div class="column1">
+                        <p class="title_hist">Distribution of the <b>Percentage of Democratic Votes for the Most Democratic District</b> across possible districting plans</p>
+                        <svg id="p_votes2"> 
+                            <br>
+                        </svg>
+                    </div>
+                    
+                    <div class="column">
+                        <p class="title_hist">Distribution of the <b>Mean Median</b> across possible districting plans</p>
+                        <svg id="mms2"> 
+                            <br>
+                        </svg>
+                    </div>
+                    <div class="column">
+                        <p class="title_hist">Distribution of the <b>Number of Democratic Seats</b> across possible districting plans</p>
+                        <svg id="hmss2"> 
+                            <br>
+                        </svg>
+                    </div>
+
+                    <div class="column">
+                        <p class="title_hist">Distribution of the <b>Efficiency Gap</b> across possible districting plans</p>
+                        <svg id="egs2"> 
+                            <br>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
+        
 
-        <script type="text/javascript">
-            $('#picDD').change(function () {
-            var val = parseInt($('#picDD').val());
-            $('img').attr("src",imageList[val]);
-            });
-        </script>
-		<img src="images/compare/mms.png"/>
-	    <select id="picDD">
-	        <option value="0" selected>Mean-Median</option>
-	        <option value="1">Efficiency Gap</option>
-	        <option value="2">Number of Seats won by Democratic</option>
-	        <option value="3">Number of Cuts</option>
-	    </select>
+        <div id = "frame5">
+            <div id = "left5">
+                <p>SOME TEXT</p>
+            </div>
+
+            <div id = "right5">
+                <!-- Part 3: Compare different metrics between VA vs. PA -->
+                <img src="images/compare/mms.png"/>
+                <select id="picDD">
+                    <option value="0" selected>Mean-Median</option>
+                    <option value="1">Efficiency Gap</option>
+                    <option value="2">Number of Seats won by Democratic</option>
+                    <option value="3">Number of Cuts</option>
+                </select>
+            </div>
+        </div>
+        
+
         
         <footer>
             <p>&copy; Copyright 2019 &bull; Millie, Nhi, Vicky </p>
