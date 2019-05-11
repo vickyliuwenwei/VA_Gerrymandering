@@ -4,14 +4,11 @@
 var col_to_filter;
 var first_load;
 
-var check_selection_nb_sp;
 var check_selection_nb_cuts;
 var check_selection_egs;
 var check_selection_mms;
 var check_selection_hmss;
 var check_selection_p_votes;
-
-
 
 var graph;
 // variables for histogram set up
@@ -20,17 +17,17 @@ var margin, width, height, formatCount,
  histogram, bins,
  maxbin_egs, minbin_egs;
 
-
-
 var margin = {top: 50, right: 30, bottom: 50, left: 100};
 var width = 450 - margin.left - margin.right;
 var height = 250 - margin.top - margin.bottom;
 // Histogram bucket width
-var HISTOGRAM_BUCKET_SIZE = 4;
+var HISTOGRAM_BUCKET_SIZE = 5;
 var numBuckets = 200 / HISTOGRAM_BUCKET_SIZE;
 var tx_max = width;
 var tx_min = 0;
 var topY = height;
+
+var n_median_seats = 5;
 
 
 Range=function(_parentElement, _data, _filterData){
@@ -42,20 +39,16 @@ Range=function(_parentElement, _data, _filterData){
     width = 450 - margin.left - margin.right;
     height = 250 - margin.top - margin.bottom;
     // Histogram bucket width
-    HISTOGRAM_BUCKET_SIZE = 4;
-    numBuckets = 200 / HISTOGRAM_BUCKET_SIZE;
     tx_max = width;
     tx_min = 0;
     topY = height;
 
-    check_selection_nb_sp = document.getElementById("check_selection_nb_sp").checked;
     check_selection_nb_cuts = document.getElementById("check_selection_nb_cuts").checked;
     check_selection_egs = document.getElementById("check_selection_egs").checked;
     check_selection_mms = document.getElementById("check_selection_mms").checked;
     check_selection_hmss = document.getElementById("check_selection_hmss").checked;
     check_selection_p_votes = document.getElementById("check_selection_p_votes").checked;
-    if (check_selection_nb_sp) {
-        col_to_filter = "nb_splits";}
+    
     if (check_selection_nb_cuts) {
         col_to_filter = "nb_cuts";}
     if (check_selection_egs) {
@@ -65,7 +58,7 @@ Range=function(_parentElement, _data, _filterData){
     if (check_selection_hmss) {
         col_to_filter = "hmss";}
     if (check_selection_p_votes) {
-        col_to_filter = "perc_dem_vote";}
+        col_to_filter = "most_democratic_district_vote_share";}
 
     this.default_var_min = d3.min(this.data, function(d) { return +d[col_to_filter]; } );
     this.default_var_max = d3.max(this.data, function(d) { return +d[col_to_filter]; } );
@@ -77,23 +70,40 @@ Range=function(_parentElement, _data, _filterData){
     if (graph) {
         // if the histogram exists then update its data
         updateHist_egs(filterData, "egs", "#egs");
-        updateHist_sp(filterData, "nb_splits", "#nb_sp");
         updateHist_cuts(filterData, "nb_cuts", "#nb_cuts");
         updateHist_mms(filterData, "mms", "#mms");
         updateHist_hmss(filterData, "hmss", "#hmss");
-        updateHist_votes(filterData, "perc_dem_vote", "#p_votes");
-
-        // cutoff_max.call(drag_max);
-        // thresholdLabel_max.call(drag_max);
-
-        // cutoff_min.call(drag_min);
-        // thresholdLabel_min.call(drag_min);
+        updateHist_votes(filterData, "most_democratic_district_vote_share", "#p_votes");
 
       } else {
 
+        // create histograms for Part ii
+        makeHist_egs2(data, "egs", "#egs2", "Efficiency Gap");
+        makeHist_cuts2(data, "nb_cuts", "#cuts2" , "Number of Cuts");
+        makeHist_mms2(data, "mms", "#mms2", "Mean - Median");
+        makeHist_hmss2(data, "hmss", "#hmss2", 
+                "Number of seats won by democrats");
+        makeHist_votes2(data, "most_democratic_district_vote_share", "#p_votes2", 
+            "Percentage Democratic Votes in the most Democratic district");
+
+        barCut = svg_nb_cuts2.append("rect");
+        barVotes = svg_p_votes2.append("rect");
+        barMms = svg_mms2.append("rect");
+        barHmss = svg_hmss2.append("rect");
+        barEgs = svg_egs2.append("rect");
+
+
+        labelCut = svg_nb_cuts2.append("text");
+        labelVote = svg_p_votes2.append("text");
+        labelMms = svg_mms2.append("text");
+        labelHmss = svg_hmss2.append("text");
+        labelEgs = svg_egs2.append("text");
+
+
+
+
         if (first_load ){
             svg_egs.selectAll("*").remove();
-            svg_nb_sp.selectAll("*").remove();
             svg_nb_cuts.selectAll("*").remove();
             svg_mms.selectAll("*").remove();
             svg_hmss.selectAll("*").remove();
@@ -103,29 +113,17 @@ Range=function(_parentElement, _data, _filterData){
             cutoff_min.selectAll("*").remove();
         } else { first_load = true ; }
 
+
+
         // otherwise create the histogram
         makeHist_egs(data, "egs", "#egs", "Efficiency Gap");
-        makeHist_sp(data, "nb_splits", "#nb_sp", "Number of Splits");
         makeHist_cuts(data, "nb_cuts", "#nb_cuts" , "Number of Cuts");
         makeHist_mms(data, "mms", "#mms", "Mean - Median");
         makeHist_hmss(data, "hmss", "#hmss", 
                 "Number of seats won by democrats");
-        makeHist_votes(data, "perc_dem_vote", "#p_votes", "Percentage Democratic Votes");
+        makeHist_votes(data, "most_democratic_district_vote_share", "#p_votes", 
+            "Percentage Democratic Votes in the most Democratic district");
 
-        if (check_selection_nb_sp) {
-            col_to_filter = "nb_splits";
-            cutoff_max = svg_nb_sp.append('rect');
-            cutoff_min = svg_nb_sp.append('rect');
-
-            var tmax_tmp = xScale_nb_sp.invert(tx_max);
-            var tmin_tmp = xScale_nb_sp.invert(0);
-            tmin_tmp = tmin_tmp.toPrecision(2);
-            tmax_tmp = tmax_tmp.toPrecision(2);
-            thresholdLabel_max = svg_nb_sp.append('text')
-                .text('Max: ' + tmax_tmp);
-            thresholdLabel_min = svg_nb_sp.append('text')
-                .text('Min: ' + tmin_tmp);
-        }
         if (check_selection_nb_cuts) {
             col_to_filter = "nb_cuts";
             cutoff_max = svg_nb_cuts.append('rect');
@@ -185,7 +183,7 @@ Range=function(_parentElement, _data, _filterData){
                 .text('Min: ' + tmin_tmp);
         }
         if (check_selection_p_votes) {
-            col_to_filter = "perc_dem_vote";
+            col_to_filter = "most_democratic_district_vote_share";
             cutoff_max = svg_p_votes.append('rect');
             cutoff_min = svg_p_votes.append('rect');
 
@@ -246,19 +244,12 @@ Range.prototype.update_range = function(){
     default_var_min = this.default_var_min;
     default_var_max = this.default_var_max;  
 
-
-    check_selection_nb_sp = document.getElementById("check_selection_nb_sp").checked;
     check_selection_nb_cuts = document.getElementById("check_selection_nb_cuts").checked;
     check_selection_egs = document.getElementById("check_selection_egs").checked;
     check_selection_mms = document.getElementById("check_selection_mms").checked;
     check_selection_hmss = document.getElementById("check_selection_hmss").checked;
     check_selection_p_votes = document.getElementById("check_selection_p_votes").checked;
 
-    if (check_selection_nb_sp) {
-        col_to_filter = "nb_splits";
-        filter_var_max = xScale_nb_sp.invert(tx_max);
-        filter_var_min = xScale_nb_sp.invert(tx_min);
-    }
     if (check_selection_nb_cuts) {
         col_to_filter = "nb_cuts";
         filter_var_max = xScale_nb_cuts.invert(tx_max);
@@ -280,7 +271,7 @@ Range.prototype.update_range = function(){
         filter_var_min = xScale_hmss.invert(tx_min);
     }
     if (check_selection_p_votes) {
-        col_to_filter = "perc_dem_vote";
+        col_to_filter = "most_democratic_district_vote_share";
         filter_var_max = xScale_p_votes.invert(tx_max);
         filter_var_min = xScale_p_votes.invert(tx_min);
     }
@@ -299,11 +290,10 @@ Range.prototype.update_range = function(){
     
     if (graph) { // if the histogram exists then update its data
         updateHist_egs(filterData, "egs", "#egs");
-        updateHist_sp(filterData, "nb_splits", "#nb_sp");
         updateHist_cuts(filterData, "nb_cuts", "#nb_cuts");
         updateHist_mms(filterData, "mms", "#mms");
         updateHist_hmss(filterData, "hmss", "#hmss");
-        updateHist_votes(filterData, "perc_dem_vote", "#p_votes");
+        updateHist_votes(filterData, "most_democratic_district_vote_share", "#p_votes");
 
         cutoff_max.call(drag_max);
         thresholdLabel_max.call(drag_max);
@@ -313,11 +303,10 @@ Range.prototype.update_range = function(){
 
       } else {// otherwise create the histogram        
         makeHist_egs(data, "egs", "#egs" , "Efficiency Gap");
-        makeHist_sp(data, "nb_splits", "#nb_sp", "Number of Splits");
         makeHist_cuts(data, "nb_cuts", "#nb_cuts" , "Number of Cuts");
         makeHist_mms(data, "mms", "#mms", "Mean - Median");
         makeHist_hmss(data, "hmss", "#hmss", "Number of seats won by democrats");
-        makeHist_votes(data, "perc_dem_vote", "#p_votes", "Percentage Democratic Votes");
+        makeHist_votes(data, "most_democratic_district_vote_share", "#p_votes", "Percentage Democratic Votes");
 
         graph = true;
       }
@@ -327,682 +316,12 @@ Range.prototype.update_range = function(){
 
 
 
-
-
-//// egs
-function makeHist_egs(old_csvdata, col, var_svg_id, xlabel) {
-    formatCount = d3.format(",.0f");
-    old_maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    old_minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-
-    maxbin_egs = d3.max(old_csvdata, function(d) { return +d[col]; });
-    minbin_egs = d3.min(old_csvdata, function(d) { return +d[col]; });
-    
-    
-
-    svg_egs= d3.select(var_svg_id)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    xScale_old = d3.scaleLinear()
-    .domain([old_minbin, old_maxbin])
-    .rangeRound([0, width]);
-
-    xScale_egs = d3.scaleLinear()
-    .domain([minbin_egs, maxbin_egs])
-    .rangeRound([0, width]);
-
-    yScale_egs = d3.scaleLinear()
-    .range([height, 0]);
-
-    histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_egs.domain())
-    .thresholds(xScale_egs.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(old_csvdata);
-
-    yScale_egs.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-    // add the x axis and x-label
-    svg_egs.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale_old));
-
-    svg_egs.append("text")
-    .attr("class", "xlabel")
-    .attr("text-anchor", "middle")
-    .attr("x", width / 2)
-    .attr("y", height + margin.bottom - 5)
-    .text(xlabel)
-    .style("font-size","70%")
-    .style("padding-bottom", "3em");
-
-
-      // add the y axis and y-label
-    svg_egs.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(0,0)")
-    .call(d3.axisLeft(yScale_egs));
-
-    svg_egs.append("text")
-    .attr("class", "ylabel")
-    .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-    .attr("x", 0 - (height / 2))
-    .attr("dy", "1em")
-    .attr("transform", "rotate(-90)")
-    .style("text-anchor", "middle")
-    .text("Count: number of plans")
-    .style("font-size","70%");
-};
-
-
-function updateHist_egs(csvdata, col, var_svg_id) {
-    var histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_egs.domain())
-    .thresholds(xScale_egs.ticks(numBuckets)); // split into 20 bins
-
-    // var blue_dem = d3.scaleLinear()
-    // .domain([Math.min(0,minbin_egs), 0])
-    // .range(["lightblue", "steelblue"]);
-
-    // var red_rep = d3.scaleLinear()
-    // .domain([0, Math.max(0, maxbin_egs)])
-    // .range(["lightred", "steelred"]);
-
-    bins = histogram(csvdata);
-
-    // set up the bars
-    bar_egs = svg_egs.selectAll(".bin_rect")
-    .data(bins)
-
-
-    bar_egs
-    .enter()
-    .append("rect")
-    .attr("class", "bin_rect")
-    .merge(bar_egs)
-    .transition()
-    .duration(100)
-    .attr("x", 1)// move 1px to right
-    .attr("transform", function(d) 
-        { return "translate(" + xScale_egs(d.x0) + "," + yScale_egs(d.length) + ")"; })
-    .attr("width", xScale_egs(bins[0].x1) - xScale_egs(bins[0].x0) - 1)
-    .attr("height", function(d) { return height - yScale_egs(d.length); })
-    .attr("fill", function(d){
-        if (d.x0 > 0) { return("red")} else {
-            return("blue")
-        }
-    }); 
-    // .attr("fill", function(d){
-    //     if (d.x0 > 0) { return(red_rep(d))} else {
-    //         return(blue_dem(d))
-    //     }
-    // }); 
-    
-    bar_egs.exit()
-    .remove();
-
-
-};
-
-
-
-
-//// splits
-function makeHist_sp(old_csvdata, col, var_svg_id, xlabel) {
-    formatCount = d3.format(",.0f");
-    old_maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    old_minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-
-    maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-    
-    
-    svg_nb_sp= d3.select(var_svg_id)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-
-    xScale_old = d3.scaleLinear()
-    .domain([old_minbin, old_maxbin])
-    .rangeRound([0, width]);
-
-    xScale_nb_sp = d3.scaleLinear()
-    .domain([minbin, maxbin])
-    .rangeRound([0, width]);
-
-    yScale_nb_sp = d3.scaleLinear()
-    .range([height, 0]);
-
-    histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_nb_sp.domain())
-    .thresholds(xScale_nb_sp.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(old_csvdata);
-
-    yScale_nb_sp.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-    // add the x axis and x-label
-    svg_nb_sp.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale_old));
-
-    svg_nb_sp.append("text")
-    .attr("class", "xlabel")
-    .attr("text-anchor", "middle")
-    .attr("x", width / 2)
-    .attr("y", height + margin.bottom - 5)
-    .text(xlabel)
-    .style("font-size","70%")
-    .style("padding-bottom", "1em");
-
-    // add the y axis and y-label
-    svg_nb_sp.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(0,0)")
-    .call(d3.axisLeft(yScale_nb_sp));
-
-    svg_nb_sp.append("text")
-    .attr("class", "ylabel")
-    .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-    .attr("x", 0 - (height / 2))
-    .attr("dy", "1em")
-    .attr("transform", "rotate(-90)")
-    .style("text-anchor", "middle")
-    .text("Count: number of plans")
-    .style("font-size","70%");
-
-
-    
-};
-
-
-function updateHist_sp(csvdata, col, var_svg_id) {
-    var histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_nb_sp.domain())
-    .thresholds(xScale_nb_sp.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(csvdata);
-
-    // set up the bars
-    bar_nb_sp = svg_nb_sp.selectAll(".bin_rect")
-    .data(bins)
-
-    bar_nb_sp
-    .enter()
-    .append("rect")
-    .attr("class", "bin_rect")
-    .merge(bar_nb_sp)
-    .transition()
-    .duration(100)
-    .attr("x", 1)// move 1px to right
-    .attr("transform", function(d) 
-        { return "translate(" + xScale_nb_sp(d.x0) + "," + yScale_nb_sp(d.length) + ")"; })
-    .attr("width", xScale_nb_sp(bins[0].x1) - xScale_nb_sp(bins[0].x0) - 1)
-    .attr("height", function(d) { return height - yScale_nb_sp(d.length); })
-    .attr("fill", "#2f165b"); 
-    
-    bar_nb_sp.exit()
-    .remove();
-
-    
-};
-
-
-
-
-
-
-
-///// cuts
-function makeHist_cuts(old_csvdata, col, var_svg_id, xlabel) {
-    formatCount = d3.format(",.0f");
-
-    old_maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    old_minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-
-    maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-    
-    
-
-    svg_nb_cuts= d3.select(var_svg_id)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    xScale_old = d3.scaleLinear()
-    .domain([old_minbin, old_maxbin])
-    .rangeRound([0, width]);
-
-    xScale_nb_cuts = d3.scaleLinear()
-    .domain([minbin, maxbin])
-    .rangeRound([0, width]);
-
-    yScale_nb_cuts = d3.scaleLinear()
-    .range([height, 0]);
-
-    histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_nb_cuts.domain())
-    .thresholds(xScale_nb_cuts.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(old_csvdata);
-
-    yScale_nb_cuts.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-    // add the x axis and x-label
-    svg_nb_cuts.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale_old));
-
-    svg_nb_cuts.append("text")
-    .attr("class", "xlabel")
-    .attr("text-anchor", "middle")
-    .attr("x", width / 2)
-    .attr("y", height + margin.bottom - 5)
-    .text(xlabel)
-    .style("font-size","70%")
-    .style("padding-bottom", "3em");
-
-      // add the y axis and y-label
-    svg_nb_cuts.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(0,0)")
-    .call(d3.axisLeft(yScale_nb_cuts));
-
-    svg_nb_cuts.append("text")
-    .attr("class", "ylabel")
-    .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-    .attr("x", 0 - (height / 2))
-    .attr("dy", "1em")
-    .attr("transform", "rotate(-90)")
-    .style("text-anchor", "middle")
-    .text("Count: number of plans")
-    .style("font-size","70%");
-};
-
-
-function updateHist_cuts(csvdata, col, var_svg_id) {
-    var histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_nb_cuts.domain())
-    .thresholds(xScale_nb_cuts.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(csvdata);
-
-    // set up the bars
-    bar_nb_cuts = svg_nb_cuts.selectAll(".bin_rect")
-    .data(bins)
-
-    bar_nb_cuts
-    .enter()
-    .append("rect")
-    .attr("class", "bin_rect")
-    .merge(bar_nb_cuts)
-    .transition()
-    .duration(100)
-    .attr("x", 1)// move 1px to right
-    .attr("transform", function(d) 
-        { return "translate(" + xScale_nb_cuts(d.x0) + "," + yScale_nb_cuts(d.length) + ")"; })
-    .attr("width", xScale_nb_cuts(bins[0].x1) - xScale_nb_cuts(bins[0].x0) - 1)
-    .attr("height", function(d) { return height - yScale_nb_cuts(d.length); })
-    .attr("fill", "#721055"); 
-    
-    bar_nb_cuts.exit()
-    .remove();
-};
-
-
-
-
-
-///// mms
-function makeHist_mms(old_csvdata, col, var_svg_id, xlabel) {
-    formatCount = d3.format(",.0f");
-
-    old_maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    old_minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-
-    maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-    
-    
-
-    svg_mms= d3.select(var_svg_id)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    xScale_old = d3.scaleLinear()
-    .domain([old_minbin, old_maxbin])
-    .rangeRound([0, width]);
-
-    xScale_mms = d3.scaleLinear()
-    .domain([minbin, maxbin])
-    .rangeRound([0, width]);
-
-    yScale_mms = d3.scaleLinear()
-    .range([height, 0]);
-
-    histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_mms.domain())
-    .thresholds(xScale_mms.ticks(numBuckets / 2)); // split into 20 bins
-
-    bins = histogram(old_csvdata);
-
-    yScale_mms.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-    // add the x axis and x-label
-    svg_mms.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale_old));
-
-    svg_mms.append("text")
-    .attr("class", "xlabel")
-    .attr("text-anchor", "middle")
-    .attr("x", width / 2)
-    .attr("y", height + margin.bottom - 5)
-    .text(xlabel)
-    .style("font-size","70%")
-    .style("padding-bottom", "3em");
-
-      // add the y axis and y-label
-    svg_mms.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(0,0)")
-    .call(d3.axisLeft(yScale_mms));
-
-    svg_mms.append("text")
-    .attr("class", "ylabel")
-    .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-    .attr("x", 0 - (height / 2))
-    .attr("dy", "1em")
-    .attr("transform", "rotate(-90)")
-    .style("text-anchor", "middle")
-    .text("Count: number of plans")
-    .style("font-size","70%");
-};
-
-function updateHist_mms(csvdata, col, var_svg_id) {
-    var histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_mms.domain())
-    .thresholds(xScale_mms.ticks(numBuckets / 2)); // split into 20 bins
-    bins = histogram(csvdata);
-
-    // set up the bars
-    bar_mms = svg_mms.selectAll(".bin_rect")
-    .data(bins)
-
-    bar_mms
-    .enter()
-    .append("rect")
-    .attr("class", "bin_rect")
-    .merge(bar_mms)
-    .transition()
-    .duration(1000)
-    .attr("x", 1)// move 1px to right
-    .attr("transform", function(d) 
-        { return "translate(" + xScale_mms(d.x0) + "," + yScale_mms(d.length) + ")"; })
-    .attr("width", xScale_mms(bins[0].x1) - xScale_mms(bins[0].x0) - 1)
-    .attr("height", function(d) { return height - yScale_mms(d.length); })
-    .attr("fill", function(d){
-        if (d.x0 > 0) { return "red"} else {
-            return "blue"
-        }
-    }); 
-    
-    bar_mms.exit()
-    .remove();
-
-
-    
-};
-
-
-
-
-
-
-//// hmss
-function makeHist_hmss(old_csvdata, col, var_svg_id, xlabel) {
-    formatCount = d3.format(",.0f");
-
-    old_maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    old_minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-    maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-    
-    
-
-    svg_hmss= d3.select(var_svg_id)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    xScale_old = d3.scaleLinear()
-    .domain([old_minbin, old_maxbin])
-    .rangeRound([0, width]);
-
-    xScale_hmss = d3.scaleLinear()
-    .domain([minbin, maxbin])
-    .rangeRound([0, width]);
-
-    yScale_hmss = d3.scaleLinear()
-    .range([height, 0]);
-
-    histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_hmss.domain())
-    .thresholds(xScale_hmss.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(old_csvdata);
-    yScale_hmss.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-    // add the x axis and x-label
-    svg_hmss.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale_old));
-
-    svg_hmss.append("text")
-    .attr("class", "xlabel")
-    .attr("text-anchor", "middle")
-    .attr("x", width / 2)
-    .attr("y", height + margin.bottom - 5)
-    .text(xlabel)
-    .style("font-size","70%")
-    .style("padding-bottom", "3em");
-
-      // add the y axis and y-label
-    svg_hmss.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(0,0)")
-    .call(d3.axisLeft(yScale_hmss));
-
-    svg_hmss.append("text")
-    .attr("class", "ylabel")
-    .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-    .attr("x", 0 - (height / 2))
-    .attr("dy", "1em")
-    .attr("transform", "rotate(-90)")
-    .style("text-anchor", "middle")
-    .text("Count: number of plans")
-    .style("font-size","70%");
-};
-
-
-function updateHist_hmss(csvdata, col, var_svg_id) {
-    var histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_hmss.domain())
-    .thresholds(xScale_hmss.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(csvdata);
-
-    // set up the bars
-    bar_hmss = svg_hmss.selectAll(".bin_rect")
-    .data(bins)
-
-    bar_hmss
-    .enter()
-    .append("rect")
-    .attr("class", "bin_rect")
-    .merge(bar_hmss)
-    .transition()
-    .duration(1000)
-    .attr("x", 1)// move 1px to right
-    .attr("transform", function(d) 
-        { return "translate(" + xScale_hmss(d.x0) + "," + yScale_hmss(d.length) + ")"; })
-    .attr("width", xScale_hmss(bins[0].x1) - xScale_hmss(bins[0].x0) - 1)
-    .attr("height", function(d) { return height - yScale_hmss(d.length); })
-    .attr("fill", function(d){
-        if (d.x0 <= 5) { return "red"} else {
-            return "blue"
-        }
-    }); 
-    
-    bar_hmss.exit()
-    .remove();
-};
-
-
-
-
-
-
-
-
-///// votes
-function makeHist_votes(old_csvdata, col, var_svg_id, xlabel) {
-    formatCount = d3.format(",.0f");
-
-    old_maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    old_minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-
-    maxbin = d3.max(old_csvdata, function(d) { return +d[col]; });
-    minbin = d3.min(old_csvdata, function(d) { return +d[col]; });
-    
-    
-
-    svg_p_votes= d3.select(var_svg_id)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    xScale_old = d3.scaleLinear()
-    .domain([old_minbin, old_maxbin])
-    .rangeRound([0, width]);
-
-    xScale_p_votes = d3.scaleLinear()
-    .domain([minbin, maxbin])
-    .rangeRound([0, width]);
-
-    yScale_p_votes = d3.scaleLinear()
-    .range([height, 0]);
-
-    histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_p_votes.domain())
-    .thresholds(xScale_p_votes.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(old_csvdata);
-
-    yScale_p_votes.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-    // add the x axis and x-label
-    svg_p_votes.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale_old));
-
-    svg_p_votes.append("text")
-    .attr("class", "xlabel")
-    .attr("text-anchor", "middle")
-    .attr("x", width / 2)
-    .attr("y", height + margin.bottom - 5)
-    .text(xlabel)
-    .style("font-size","70%")
-    .style("padding-bottom", "3em");
-
-      // add the y axis and y-label
-    svg_p_votes.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(0,0)")
-    .call(d3.axisLeft(yScale_p_votes));
-
-    svg_p_votes.append("text")
-    .attr("class", "ylabel")
-    .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-    .attr("x", 0 - (height / 2))
-    .attr("dy", "1em")
-    .attr("transform", "rotate(-90)")
-    .style("text-anchor", "middle")
-    .text("Count: number of plans")
-    .style("font-size","70%");
-};
-
-
-function updateHist_votes(csvdata, col, var_svg_id) {
-    var histogram = d3.histogram()
-    .value(function(d) { return +d[col]; })
-    .domain(xScale_p_votes.domain())
-    .thresholds(xScale_p_votes.ticks(numBuckets)); // split into 20 bins
-
-    bins = histogram(csvdata);
-
-    // set up the bars
-    bar_p_votes = svg_p_votes.selectAll(".bin_rect")
-    .data(bins)
-
-    bar_p_votes
-    .enter()
-    .append("rect")
-    .attr("class", "bin_rect")
-    .merge(bar_p_votes)
-    .transition()
-    .duration(1000)
-    .attr("x", 1)// move 1px to right
-    .attr("transform", function(d) 
-        { return "translate(" + xScale_p_votes(d.x0) + "," + yScale_p_votes(d.length) + ")"; })
-    .attr("width", xScale_p_votes(bins[0].x1) - xScale_p_votes(bins[0].x0) - 1)
-    .attr("height", function(d) { return height - yScale_p_votes(d.length); })
-    .attr("fill", function(d){
-        if (d.x0 > 50) { return "red"} else {
-            return "blue"
-        }
-    }); 
-    
-    bar_p_votes.exit()
-    .remove();
-};
-
 // for threshold bars
 function setThreshold(t, eventFromUser, max_true) {
     t = Math.min(t, default_var_max);
     t = Math.max(t, default_var_min);
     if (eventFromUser) {
-        if (check_selection_nb_sp){
-            t = t.toPrecision(2);
-        } 
+        
         if (check_selection_hmss){
             t = t.toPrecision(1);
         }
@@ -1069,7 +388,7 @@ function setThreshold(t, eventFromUser, max_true) {
 var drag_max = d3.drag()
 .on('drag', function() {
     tx_max += d3.event.dx;  
-    if (check_selection_nb_sp) { var t_max = xScale_nb_sp.invert(tx_max)}
+    
     if (check_selection_nb_cuts) { var t_max = xScale_nb_cuts.invert(tx_max)}
     if (check_selection_egs) { var t_max = xScale_egs.invert(tx_max)}
     if (check_selection_mms) { var t_max = xScale_mms.invert(tx_max)}
@@ -1083,9 +402,7 @@ var drag_max = d3.drag()
 var drag_min = d3.drag()
 .on('drag', function() {
     tx_min += d3.event.dx;
-    if (check_selection_nb_sp) { 
-        var t_min = xScale_nb_sp.invert(tx_min);
-    }
+    
     if (check_selection_nb_cuts) { var t_min = xScale_nb_cuts.invert(tx_min);}
     if (check_selection_egs) { var t_min = xScale_egs.invert(tx_min);}
     if (check_selection_mms) { var t_min = xScale_mms.invert(tx_min);}
@@ -1095,3 +412,219 @@ var drag_min = d3.drag()
     update();
 });
 
+
+
+function changeDataPath(){
+    var selectionVal = d3.select('#chooseData').property('value');
+    if (selectionVal == 0){
+        path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/VA_data/plan_metrics_ATG17.csv";
+        HISTOGRAM_BUCKET_SIZE = 4;
+        numBuckets = 200 / HISTOGRAM_BUCKET_SIZE;
+        n_median_seats = 5;
+    } else {
+        path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/PA_data/plan_metrics_PA_PRES16.csv";
+        HISTOGRAM_BUCKET_SIZE = 5;
+        numBuckets = Math.round( 200 / HISTOGRAM_BUCKET_SIZE);
+        n_median_seats = 10;
+    }
+    startHere(path);
+};
+
+
+
+function disp_text() {
+    if (document.getElementById("description").value == "1"){
+        document.getElementById("message").innerHTML = "The mean-median difference is simply calculated by subtracting the average vote share of either party across all districts from the median vote share of the same party across all districts. A negative mean-median difference indicates that the examined party has an advantage; a positive difference indicates that the examined party is disadvantaged";
+    } else if (document.getElementById("description").value == "2"){
+        document.getElementById("message").innerHTML = "(# wasted votes by party 1 - # wasted votes by party 2) / # total votes = the difference between the parties' respective wasted votes, divided by the total number of votes cast in the election";
+    }  else if (document.getElementById("description").value == "3"){
+        document.getElementById("message").innerHTML = "This is the number of seats won by Democratic party in selected state";
+    }  else if (document.getElementById("description").value == "4"){
+        document.getElementById("message").innerHTML = "When you split a state into squares, the number of times each districts' boarder were cut.";
+    }else{
+        document.getElementById("message").innerHTML = "";
+    }        
+};
+
+
+
+var cuts_map1 = 590;
+var cuts_map2 = 571;
+var cuts_map3 = 584;
+
+var votes_map1 = 0.712889894;
+var votes_map2 = 0.735565752;
+var votes_map3 = 0.744697064;
+
+var mms_map1 = -0.007489715;
+var mms_map2 = -0.0395846;
+var mms_map3 = 0.000752651;
+
+var hmss_map1 = 7;
+var hmss_map2 = 6;
+var hmss_map3 = 7;
+
+var egs_map1 = -0.076422874;
+var egs_map2 = 0.009557028 ;
+var egs_map3 = -0.084787178;
+
+var labelCut;
+var labelVote;
+var labelMms;
+var labelHmss;
+var labelEgs;
+
+function map_highlight(number){
+    console.log("click map to trigger function");
+    var cutToShow;
+    var voteToShow;
+    var mmsToShow;
+    var hmssToShow;
+    var egsToShow;
+
+    var labelText;
+
+
+    if (number == 1){
+        cutToShow = cuts_map1;
+        voteToShow = votes_map1;
+        mmsToShow = mms_map1;
+        hmssToShow = hmss_map1;
+        egsToShow = egs_map1;
+        labelText = "Map 1";
+    }
+    else if (number == 2){
+        cutToShow = cuts_map2;
+        voteToShow = votes_map2;
+        mmsToShow = mms_map2;
+        hmssToShow = hmss_map2;
+        egsToShow = egs_map2;
+        labelText = "Map 2";
+    } else {
+        cutToShow = cuts_map3;
+        voteToShow = votes_map3;
+        mmsToShow = mms_map3;
+        hmssToShow = hmss_map3;
+        egsToShow = egs_map3;
+        labelText = "Map 3";
+    }
+    barCut.enter()
+            .merge(barCut)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_nb_cuts2(cutToShow))
+            .attr('y', -20)//-height
+                        .attr('width', 7)
+                        .attr('height', height + 20)
+                        .attr("class", "barcut2");
+    barCut.exit()
+            .remove();
+    barVotes.enter()
+            .merge(barVotes)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_p_votes2(voteToShow))
+            .attr('y', -20)//-height
+                        .attr('width', 7)
+                        .attr('height', height + 20)
+                        .attr("class", "barvotes2");
+    barVotes.exit()
+            .remove();
+
+
+
+    barMms.enter()
+            .merge(barMms)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_mms2(mmsToShow))
+            .attr('y', -20)
+                        .attr('width', 7)
+                        .attr('height', height + 20)
+                        .attr("class", "barmms2");
+
+    barMms.exit()
+            .remove();
+    barHmss.enter()
+            .merge(barHmss)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_hmss2(hmssToShow))
+            .attr('y', -20)
+                        .attr('width', 7)
+                        .attr('height', height + 20)
+                        .attr("class", "barhmss2");
+    barHmss.exit()
+            .remove();
+
+    barEgs.enter()
+            .merge(barEgs)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_egs2(egsToShow))
+            .attr('y', -20)
+                        .attr('width', 7)
+                        .attr('height', height + 20)
+                        .attr("class", "baregs2");
+    barEgs.exit()
+            .remove();
+
+
+    labelCut.enter()
+            .merge(labelCut)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_nb_cuts2(cutToShow))
+            .attr('y', -30)
+            .attr('text-anchor', 'middle')
+            .attr('class', 'label')
+            .text(labelText);
+    labelCut.exit()
+    .remove()
+    labelVote.enter()
+            .merge(labelVote)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_p_votes2(voteToShow))
+            .attr('y', -30)
+            .attr('text-anchor', 'middle')
+            .attr('class', 'label')
+            .text(labelText);
+    labelVote.exit()
+    .remove()
+    labelMms.enter()
+            .merge(labelMms)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_mms2(mmsToShow))
+            .attr('y', -30)
+            .attr('text-anchor', 'middle')
+            .attr('class', 'label')
+            .text(labelText);
+    labelMms.exit()
+    .remove()
+    labelHmss.enter()
+            .merge(labelHmss)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_hmss2(hmssToShow))
+            .attr('y', -30)
+            .attr('text-anchor', 'middle')
+            .attr('class', 'label')
+            .text(labelText);
+    labelHmss.exit()
+    .remove()
+    labelEgs.enter()
+            .merge(labelEgs)
+            .transition()
+            .duration(1)
+            .attr('x', xScale_egs2(egsToShow))
+            .attr('y', -30)
+            .attr('text-anchor', 'middle')
+            .attr('class', 'label')
+            .text(labelText);
+    labelEgs.exit()
+    .remove()
+};
+
+    
