@@ -10,13 +10,13 @@ function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
-  var maxbin1 = Math.ceil(d3.max(csvdata, function(d) { return d[col]; }));
-  var maxbin2 = Math.ceil(d3.max(csvdata2, function(d) { return d[col]; }));
-  var maxbin = max(maxbin1, maxbin2)
+  var maxbin1 = d3.max(csvdata, function(d) { return d[col]; });
+  var maxbin2 = d3.max(csvdata2, function(d) { return d[col]; });
+  var maxbin = Math.max(maxbin1, maxbin2)
 
-  var minbin1 = Math.ceil(d3.min(csvdata, function(d) { return d[col]; }));
-  var minbin2 = Math.ceil(d3.min(csvdata2, function(d) { return d[col]; }));
-  var minbin = min(minbin1, minbin2)
+  var minbin1 = d3.min(csvdata, function(d) { return d[col]; });
+  var minbin2 = d3.min(csvdata2, function(d) { return d[col]; });
+  var minbin = Math.min(minbin1, minbin2)
 
   var xScale = d3.scaleLinear()
   .domain([minbin, maxbin])
