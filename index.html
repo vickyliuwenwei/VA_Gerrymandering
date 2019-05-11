@@ -13,7 +13,7 @@
 		<select id="description" onchange="disp_text()">
 		  <option value="1">Mean-Median</option>
 		  <option value="2">Efficiency Gap</option>
-		  <option value="3">>Number of Seats won by Democratic</option>
+		  <option value="3">Number of Seats won by Democratic</option>
 		  <option value="4">Number of Cuts</option>
 		  <option value="5">Number of Splits</option>
 		</select>
@@ -24,7 +24,15 @@
 	    	function disp_text() {
 			    if (document.getElementById("description").value == "1"){
 			        document.getElementById("message").innerHTML = "The mean-median difference is simply calculated by subtracting the average vote share of either party across all districts from the median vote share of the same party across all districts. A negative mean-median difference indicates that the examined party has an advantage; a positive difference indicates that the examined party is disadvantaged";
-			    }     
+			    } else if (document.getElementById("description").value == "2"){
+			        document.getElementById("message").innerHTML = "(# wasted votes by party 1 - # wasted votes by party 2) / # total votes = the difference between the parties' respective wasted votes, divided by the total number of votes cast in the election";
+			    }  else if (document.getElementById("description").value == "3"){
+			        document.getElementById("message").innerHTML = "This is the number of seats won by Democratic party in selected state";
+			    }  else if (document.getElementById("description").value == "4"){
+			        document.getElementById("message").innerHTML = "When you split a state into squares, the number of times each districts' boarder were cutted.";
+			    }  else if (document.getElementById("description").value == "5"){
+			        document.getElementById("message").innerHTML = "When you split a state into squares, the number of times each district are splited into squares.";
+			    }  
 			    else{
 			        document.getElementById("message").innerHTML = "Others";
 			    }        
