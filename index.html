@@ -56,8 +56,8 @@
 			startHere();
 		</script>
 		
-		<div id="nb_ct" class="graph"></div>
-		<div id="egs" class="graph"></div>
+		<!-- <div id="nb_ct" class="graph"></div> -->
+		<!-- <div id="egs" class="graph"></div> -->
 
 	    <select id="picDD" onchange="changeHist()">
 	        <option value="0" selected>Mean-Median</option>
@@ -68,10 +68,10 @@
 	    <script type="text/javascript">
 	    	function changeHist() {
 	    		if (document.getElementById("picDD")=="1"){
-	    			hist(csvdata,csvdata2,"nb_cuts", "#nb_ct", "Number of Cuts")
+	    			hist(csvdata,csvdata2,"nb_cuts", "#body", "Number of Cuts")
 	    		}
 		    	else if (document.getElementById("picDD")=="2"){
-		    		hist(csvdata,csvdata2,"egs", "#egs", "Number of Cuts")
+		    		hist(csvdata,csvdata2,"egs", "#body", "Number of Cuts")
 		    	}
 		    };
 	    </script>
