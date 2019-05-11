@@ -20,6 +20,7 @@
         <script src="code/lib/d3.tip.v0.6.3.js"></script>
         <script src="code/buildHistograms.js"></script>
         <script src="code/updateRange4.js"></script>
+        <script src="code/additionals.js"></script>
         <!-- <script src="code/lib/d3.v3.min.js"  charset="utf-8"></script> -->
 
         <script>
@@ -51,157 +52,105 @@
         <p>Please, see our write-up <a href="http://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/writeup.html">here</a>.</p>
 
         <div class="filter_title">
-            <h3>Interactive plan metric distributions in Virginia</h3>
+            <h3>Interactive plan metric distributions</h3>
         </div>
 
-        <div class = "left">
+        <div class = "frame2">
+            <div class = "left">
 
-            <p> Here are the definitions for you to choose from </p>
+                <p> Here are the definitions for you to choose from </p>
 
-            <select id="description" onchange="disp_text()">
-                <option value="0">Choose one definition: </option>
-                <option value="3">Number of Seats won by Democratic</option>
-                <option value="1">Mean-Median</option>
-                <option value="2">Efficiency Gap</option>
-                <option value="4">Number of Cuts</option>
-            </select>
+                <select id="description" onchange="disp_text()">
+                    <option value="0">Choose one definition: </option>
+                    <option value="3">Number of Seats won by Democratic</option>
+                    <option value="1">Mean-Median</option>
+                    <option value="2">Efficiency Gap</option>
+                    <option value="4">Number of Cuts</option>
+                </select>
 
-            <div id="message"></div>
-            
-            <br>
+                <div id="message"></div>
 
-            <div class="side-filter">
-                <p>Choose a metric to filter on:</p><br>
-                <div class="control">
-                    <label class="radioMetric">
-                         Number of cuts
-                    </label>
-                    <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
-                    <br>
-                    <label class="radioMetric">
-                        Democratic vote shares for the most democratic district
-                    </label>
-                    <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
-                    
-                    <br>
-                    <label class="radioMetric">
-                        Mean-Median
-                    </label>
-                    <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
-                    <br>
-                    <label class="radioMetric">
-                        Number of Democratic seats
-                    </label>
-                    <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
-                    <br>
+                <br>
 
-                    <label class="radioMetric">
-                         Efficiency gap
-                    </label>
-                    <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
+                <div class="side-filter">
+                    <p>Choose a metric to filter on:</p><br>
+                    <div class="control">
+                        <label class="radioMetric">
+                             Number of cuts
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
+                        <br>
+                        <label class="radioMetric">
+                            Democratic vote shares for the most democratic district
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
+                        
+                        <br>
+                        <label class="radioMetric">
+                            Mean-Median
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
+                        <br>
+                        <label class="radioMetric">
+                            Number of Democratic seats
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
+                        <br>
+
+                        <label class="radioMetric">
+                             Efficiency gap
+                        </label>
+                        <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
+                    </div>
                 </div>
             </div>
 
-        </div>
+            <div class = "right">
+                <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
 
-        <br>
-
-        <!-- <div id="slider-range"> </div> -->
-            <script type="text/javascript">
-            	var data = ["Option 1", "Option 2", "Option 3"];
-
-    			var select = d3.select('body')
-    			  .append('select')
-    			  	.attr('class','select')
-    			    .on('change',onchange)
-
-    			function onchange() {
-    				selectValue = d3.select('.select').property('value')
-    				d3.select('body')
-    					.append('p')
-    					.text(selectValue + ' is the last selected option.')
-    			};
-
-                var update = function(){
-                    fv.update_range();
-                };
-
-                var dataLoaded = function(error,_mapData,_filterData){
-                    graph = false;
-                    var xScale_egs, yScale_egs,  svg_egs, bar_egs;
-                    // var xScale_nb_sp, yScale_nb_sp, svg_nb_sp, bar_nb_sp;
-                    var xScale_nb_cuts, yScale_nb_cuts, svg_nb_cuts, bar_nb_cuts;
-                    var xScale_mms, yScale_mms, svg_mms, bar_mms;
-                    var xScp_votes, yScale_hmss,svg_hmss, bar_hmss;
-                    var xScale_p_votes, yScale_p_votes,svg_p_votes, bar_p_votes;
-                    var xScale, yScale, xAxis, yAxis;
-                    var cutoff_max ;
-                    var thresholdLabel_max;
-                    var cutoff_min ;
-                    var thresholdLabel_min;
-                    
-
-                    var mapData = _mapData;
-                    var filterData = _filterData;
-                    fv = new Range('#Range',mapData, filterData);
-                };
-                var path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/VA_data/plan_metrics_ATG17.csv";
-                var startHere = function(path){
-                    var q = d3.queue();
-                    q.defer(d3.csv, path)
-                    .defer(d3.csv, path)
-                    .await(dataLoaded); // Call dataLoaded function
-               };
-
-               startHere(path);
-            </script>
-
-        <div class = "right">
-            <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
-
-            <select id="chooseData" onchange="changeDataPath()">
-                <option value="0" selected >Virgina</option>
-                <option value="1">Pennsylvania</option>
-            </select>
+                <select id="chooseData" onchange="changeDataPath()">
+                    <option value="0" selected >Virgina</option>
+                    <option value="1">Pennsylvania</option>
+                </select>
 
 
-            <div id="vaContainer" >
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
-                        <svg id="nb_cuts"> 
-                            <br>s
-                        </svg>
-                </div>
+                <div id="vaContainer" >
+                    <div class="column">
+                            <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
+                            <svg id="nb_cuts"> 
+                                <br>s
+                            </svg>
+                    </div>
 
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
-                        <svg id="p_votes">
-                            <br>
-                        </svg>
-                </div>
-            
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
-                        <svg id="mms">
-                            <br>
-                        </svg>
-                </div>
+                    <div class="column">
+                            <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
+                            <svg id="p_votes">
+                                <br>
+                            </svg>
+                    </div>
+                
+                    <div class="column">
+                            <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
+                            <svg id="mms">
+                                <br>
+                            </svg>
+                    </div>
 
-                <div class="column">   
-                        <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
-                        <svg id="hmss">
-                            <br>
-                        </svg>
-                </div>
+                    <div class="column">   
+                            <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
+                            <svg id="hmss">
+                                <br>
+                            </svg>
+                    </div>
 
-                <div class="column">
-                        <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
-                        <svg id = "egs">
-                        </svg>
+                    <div class="column">
+                            <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
+                            <svg id = "egs">
+                            </svg>
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <!-- Part 2: Given 3 plan maps and let user click one to show plan's 6 metrics on corresponding global distribution -->
         <div id="maps"></div>
@@ -245,12 +194,14 @@
                     <br>
                 </svg>
             </div>
-
         </div>
 
-
-
-        <!-- Part 3: Compare different metrics between VA vs. PA -->
+        <script type="text/javascript">
+            $('#picDD').change(function () {
+            var val = parseInt($('#picDD').val());
+            $('img').attr("src",imageList[val]);
+            });
+        </script>
 		<img src="images/compare/mms.png"/>
 	    <select id="picDD">
 	        <option value="0" selected>Mean-Median</option>
@@ -258,19 +209,6 @@
 	        <option value="2">Number of Seats won by Democratic</option>
 	        <option value="3">Number of Cuts</option>
 	    </select>
-
-	    <script text = "text/javascript">
-	    var imageList = [
-		    "images/compare/mms.png",
-		    "images/compare/egs.png",
-		    "images/compare/hmss.png",
-		    "images/compare/nb_cuts.png"];
-
-			$('#picDD').change(function () {
-			    var val = parseInt($('#picDD').val());
-			    $('img').attr("src",imageList[val]);
-			});
-	    </script>
         
         <footer>
             <p>&copy; Copyright 2019 &bull; Millie, Nhi, Vicky </p>

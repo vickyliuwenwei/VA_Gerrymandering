@@ -1,113 +1,89 @@
-function parser(d) {
-    d.pnbs = + d.nb_splits;
-    d.pdratio = +d.perc_dem_vote;
-    d.pnbc = + d.nb_cuts;
-    return d;
-}
 
-function hist1(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_splits; }));
-  console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_splits; }));
-  console.log(minbin);
-  var numbins = 20;
-  var binsize = 2;
-  console.log(binsize);
-  // var minbin = 36;
-  // var maxbin = 60;
-  // var binsize = 2;
-  // var numbins = (maxbin - minbin) / binsize;
-  var binmargin = .2; 
+var created = false;
+var svg;
+
+function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
+  console.log(created);
+
+  var formatCount = d3.format(",.0f");
   var margin = {top: 10, right: 30, bottom: 50, left: 90};
   var width = 450 - margin.left - margin.right;
   var height = 250 - margin.top - margin.bottom;
 
-  // Set the limits of the x axis
-  var xmin = minbin - 1
-  var xmax = maxbin + 1
+  var maxbin1 = d3.max(csvdata, function(d) { return d[col]; });
+  var maxbin2 = d3.max(csvdata2, function(d) { return d[col]; });
+  var maxbin = Math.max(maxbin1, maxbin2)+1
 
-  histdata = new Array(numbins);
-  for (var i = 0; i < numbins; i++) {
-    if (i < histdata.length) {
-      histdata[i] = {numfill: 0};
-    }
-  }
+  var minbin1 = d3.min(csvdata, function(d) { return d[col]; });
+  var minbin2 = d3.min(csvdata2, function(d) { return d[col]; });
+  var minbin = Math.min(minbin1, minbin2)-1
 
-  csvdata.forEach(function(d) {
-  var bin = Math.floor((d.pnbs - minbin) / binsize);
-  if ((bin.toString() != "NaN") && (bin < histdata.length)) {
-      histdata[bin].numfill += 1;
-    }
-  });
+  var xScale = d3.scaleLinear()
+  .domain([minbin, maxbin])
+  .range([0, width]); 
 
-  // This scale is for determining the widths of the histogram bars
-  // Must start at 0 or else x(binsize a.k.a dx) will be negative
-  var x = d3.scale.linear()
-  .domain([0, (xmax - xmin)])
-  .range([0, width]);
-
-  // Scale for the placement of the bars
-  var x2 = d3.scale.linear()
-  .domain([xmin, xmax])
-  .range([0, width]);
-
-  // Make an array
-  var values = [];
-  csvdata.forEach(function(d) { values.push(d.nb_splits); });
-
-  var y = d3.scale.linear()
-  .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
+  var yScale = d3.scaleLinear()
   .range([height, 0]);
 
-  var xAxis = d3.svg.axis()
-  .scale(x2)
-  .orient("bottom");
-  var yAxis = d3.svg.axis()
-  .scale(y)
-  .ticks(8)
-  .orient("left");
+  var histogram = d3.histogram()
+  .value(function(d) { return d[col]; })
+  .domain(xScale.domain())
+  .thresholds(xScale.ticks(30)); // split into 30 bins
 
-  // put the graph in the "varg" div
-  var svg = d3.select("#nb_sp").append("svg")
+  
+  svg = d3.select(var_svg_id).append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  created = true;
 
-  // svg.call(tip);
+  var bins = histogram(csvdata)
+  var bins2 = histogram(csvdata2)
 
-  // set up the bars
-  var bar = svg.selectAll(".bar")
-  .data(histdata)
-  .enter().append("g")
-  .attr("class", "bar")
-  .attr("transform", function(d, i) { 
-    return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
-  });
+  yScale.domain([0, d3.max(bins, function(d) { return d.length; })]);
+  
+  svg.selectAll("rect")
+  .data(bins)
+  .enter()
+  .append("rect")
+  .attr("x", 1)
+  .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; })
+  .attr("width", xScale(bins[0].x1) - xScale(bins[0].x0) - 1)
+  .attr("height", function(d) { return height - yScale(d.length); })
+  .style("fill", "#69b3a2")
+  .style("opacity", 0.4);
 
-    // add rectangles of correct size at correct location
-  bar.append("rect")
-  .attr("x", x(binmargin))
-  .attr("width", x(binsize - 2*binmargin))
-  .attr("height", function(d) { return height - y(d.numfill); });
+  svg.selectAll("rect2")
+  .data(bins2)
+  .enter()
+  .append("rect")
+  .attr("x", 1)
+  .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; })
+  .attr("width", xScale(bins2[0].x1) - xScale(bins2[0].x0) - 1)
+  .attr("height", function(d) { return height - yScale(d.length); })
+  .style("fill", "#404080")
+  .style("opacity", 0.4);
 
-    // add the x axis and x-label
+  // add the x axis and x-label
   svg.append("g")
-  .attr("class", "x axis")
+  .attr("class", "axis")
   .attr("transform", "translate(0," + height + ")")
-  .call(xAxis);
+  .call(d3.axisBottom(xScale));
+
   svg.append("text")
   .attr("class", "xlabel")
   .attr("text-anchor", "middle")
   .attr("x", width / 2)
   .attr("y", height + margin.bottom)
-  .text("Number of Splits");
+  .text(x_lab); 
 
-    // add the y axis and y-label
+  // add the y axis and y-label
   svg.append("g")
   .attr("class", "y axis")
   .attr("transform", "translate(0,0)")
-  .call(yAxis);
+  .call(d3.axisLeft(yScale));
+
   svg.append("text")
   .attr("class", "ylabel")
   .attr("y", 0 - margin.left) // x and y switched due to rotation!!
@@ -116,233 +92,10 @@ function hist1(csvdata) {
   .attr("transform", "rotate(-90)")
   .style("text-anchor", "middle")
   .text("Count");
+
+  svg.append("circle").attr("cx",300).attr("cy",30).attr("r", 6).style("fill", "#69b3a2")
+  svg.append("circle").attr("cx",300).attr("cy",60).attr("r", 6).style("fill", "#404080")
+  svg.append("text").attr("x", 320).attr("y", 30).text("Entire Data").style("font-size", "15px").attr("alignment-baseline","middle")
+  svg.append("text").attr("x", 320).attr("y", 60).text("Filtered Data").style("font-size", "15px").attr("alignment-baseline","middle")
+
 }
-
-function hist2(csvdata) {
-  var maxbin = d3.max(csvdata, function(d) { return d.perc_dem_vote; });
-  console.log(maxbin);
-  var minbin = d3.min(csvdata, function(d) { return d.perc_dem_vote; });
-  console.log(minbin);
-  var numbins = 40;
-  var binsize = 0.0002;
-  console.log(binsize);
-  // var minbin = 36;
-  // var maxbin = 60;
-  // var binsize = 2;
-  // var numbins = (maxbin - minbin) / binsize;
-  var binmargin = binsize/10; 
-  var margin = {top: 10, right: 30, bottom: 50, left: 90};
-  var width = 450 - margin.left - margin.right;
-  var height = 250 - margin.top - margin.bottom;
-
-  // Set the limits of the x axis
-  var xmin = minbin
-  var xmax = maxbin
-
-  histdata = new Array(numbins);
-  for (var i = 0; i < numbins; i++) {
-    if (i < histdata.length) {
-      histdata[i] = {numfill: 0};
-    }
-  }
-
-  csvdata.forEach(function(d) {
-  var bin = Math.floor((d.pdratio - minbin)/ binsize);
-  if ((bin.toString() != "NaN") && (bin < histdata.length)) {
-      histdata[bin].numfill += 1;
-    }
-  });
-
-  console.log(histdata)
-
-  // This scale is for determining the widths of the histogram bars
-  // Must start at 0 or else x(binsize a.k.a dx) will be negative
-  var x = d3.scale.linear()
-  .domain([0, (xmax - xmin)])
-  .range([0, width]);
-
-  // Scale for the placement of the bars
-  var x2 = d3.scale.linear()
-  .domain([xmin, xmax])
-  .range([0, width]);
-
-  // Make an array
-  var values = [];
-  csvdata.forEach(function(d) { values.push(d.perc_dem_vote ); });
-
-  var y = d3.scale.linear()
-  .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
-  .range([height, 0]);
-
-  var xAxis = d3.svg.axis()
-  .scale(x2)
-  .orient("bottom");
-  var yAxis = d3.svg.axis()
-  .scale(y)
-  .ticks(8)
-  .orient("left");
-
-  // put the graph in the "dtp" div
-  var svg = d3.select("#dtp").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  // svg.call(tip);
-
-  // set up the bars
-  var bar = svg.selectAll(".bar")
-  .data(histdata)
-  .enter().append("g")
-  .attr("class", "bar")
-  .attr("transform", function(d, i) { 
-    return "translate(" + x2(i) + "," + y(d.numfill) + ")"; 
-  });
-
-    // add rectangles of correct size at correct location
-  bar.append("rect")
-  .attr("x", x(binmargin))
-  .attr("width", x(binsize - 2*binmargin))
-  .attr("height", function(d) { return height - y(d.numfill); });
-
-    // add the x axis and x-label
-  svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + height + ")")
-  .call(xAxis);
-  svg.append("text")
-  .attr("class", "xlabel")
-  .attr("text-anchor", "middle")
-  .attr("x", width / 2)
-  .attr("y", height + margin.bottom)
-  .text("Percentage of Democratic Ratio");
-
-    // add the y axis and y-label
-  svg.append("g")
-  .attr("class", "y axis")
-  .attr("transform", "translate(0,0)")
-  .call(yAxis);
-  svg.append("text")
-  .attr("class", "ylabel")
-  .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-  .attr("x", 0 - (height / 2))
-  .attr("dy", "1em")
-  .attr("transform", "rotate(-90)")
-  .style("text-anchor", "middle")
-  .text("Count");
-}
-
-function hist3(csvdata) {
-  var maxbin = Math.ceil(d3.max(csvdata, function(d) { return d.nb_cuts; }));
-  console.log(maxbin);
-  var minbin = Math.floor(d3.min(csvdata, function(d) { return d.nb_cuts; }));
-  console.log(minbin);
-  var numbins = 20;
-  var binsize = 18;
-  console.log(binsize);
-  // var minbin = 36;
-  // var maxbin = 60;
-  // var binsize = 2;
-  // var numbins = (maxbin - minbin) / binsize;
-  var binmargin = .2; 
-  var margin = {top: 10, right: 30, bottom: 50, left: 90};
-  var width = 450 - margin.left - margin.right;
-  var height = 250 - margin.top - margin.bottom;
-
-  // Set the limits of the x axis
-  var xmin = minbin - 1
-  var xmax = maxbin + 1
-
-  histdata = new Array(numbins);
-  for (var i = 0; i < numbins; i++) {
-    if (i < histdata.length) {
-      histdata[i] = { numfill: 0, meta: "" };
-    }
-  }
-
-  csvdata.forEach(function(d) {
-  var bin = Math.floor((d.pnbc - minbin) / binsize);
-  if (bin < histdata.length) {
-      histdata[bin].numfill += 1;
-    }
-  });
-
-  // This scale is for determining the widths of the histogram bars
-  // Must start at 0 or else x(binsize a.k.a dx) will be negative
-  var x = d3.scale.linear()
-  .domain([0, (xmax - xmin)])
-  .range([0, width]);
-
-  // Scale for the placement of the bars
-  var x2 = d3.scale.linear()
-  .domain([xmin, xmax])
-  .range([0, width]);
-
-  // Make an array
-  var values = [];
-  csvdata.forEach(function(d) { values.push(d.nb_cuts ); });
-
-  var y = d3.scale.linear()
-  .domain([0, d3.max(histdata, function(d) { return d.numfill; })])
-  .range([height, 0]);
-
-  var xAxis = d3.svg.axis()
-  .scale(x2)
-  .orient("bottom");
-  var yAxis = d3.svg.axis()
-  .scale(y)
-  .ticks(8)
-  .orient("left");
-
-  // put the graph in the "varg" div
-  var svg = d3.select("#nb_ct").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  // svg.call(tip);
-
-  // set up the bars
-  var bar = svg.selectAll(".bar")
-  .data(histdata)
-  .enter().append("g")
-  .attr("class", "bar")
-  .attr("transform", function(d, i) { 
-    return "translate(" + x2(i * binsize + minbin) + "," + y(d.numfill) + ")"; 
-  });
-
-    // add rectangles of correct size at correct location
-  bar.append("rect")
-  .attr("x", x(binmargin))
-  .attr("width", x(binsize - 2*binmargin))
-  .attr("height", function(d) { return height - y(d.numfill); });
-
-    // add the x axis and x-label
-  svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + height + ")")
-  .call(xAxis);
-  svg.append("text")
-  .attr("class", "xlabel")
-  .attr("text-anchor", "middle")
-  .attr("x", width / 2)
-  .attr("y", height + margin.bottom)
-  .text("Number of cuts");
-
-    // add the y axis and y-label
-  svg.append("g")
-  .attr("class", "y axis")
-  .attr("transform", "translate(0,0)")
-  .call(yAxis);
-  svg.append("text")
-  .attr("class", "ylabel")
-  .attr("y", 0 - margin.left) // x and y switched due to rotation!!
-  .attr("x", 0 - (height / 2))
-  .attr("dy", "1em")
-  .attr("transform", "rotate(-90)")
-  .style("text-anchor", "middle")
-  .text("Count");
-}
-// Read in .csv data and make graphs
