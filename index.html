@@ -18,9 +18,11 @@
 		  <option value="5">Number of Splits</option>
 		</select>
 
+		<div id="message"></div>
+
 		<script text = "text/javascript">
 	    	function disp_text() {
-			    if (document.getElementById("leave").value == "1"){
+			    if (document.getElementById("description").value == "1"){
 			        document.getElementById("message").innerHTML = "The mean-median difference is simply calculated by subtracting the average vote share of either party across all districts from the median vote share of the same party across all districts. A negative mean-median difference indicates that the examined party has an advantage; a positive difference indicates that the examined party is disadvantaged";
 			    }     
 			    else{
@@ -28,8 +30,6 @@
 			    }        
 			}
 	    </script>
-
-	    <div id="message"></div>
 
 		<script type="text/javascript">
 			var dataLoaded = function(error, csvdata, csvdata2) {
