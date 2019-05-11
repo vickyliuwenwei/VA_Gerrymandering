@@ -41,45 +41,54 @@
 	    </script>
 
 		<script type="text/javascript">
-			// var dataLoaded = function(error, csvdata, csvdata2) {
-			// 	hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
-			// 	hist(csvdata, csvdata2, "egs", "#egs", "Efficiency Gap");
+			var dataLoaded = function(error, csvdata, csvdata2) {
+				hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
+				hist(csvdata, csvdata2, "egs", "#egs", "Efficiency Gap");
+			};
 
-			// };
+			var startHere = function(){
+				var q = d3.queue();
+				q.defer(d3.csv, "data/plan_metrics_ATG17.csv")
+				.defer(d3.csv, "data/plan_metrics_PA_PRES16.csv")
+				.await(dataLoaded);
+			};
 
-			// var startHere = function(){
-			// 	var q = d3.queue();
-			// 	q.defer(d3.csv, "data/plan_metrics_ATG17.csv")
-			// 	.defer(d3.csv, "data/plan_metrics_PA_PRES16.csv")
-			// 	.await(dataLoaded);
-			// };
-
-			// startHere();
-			var csvdata = d3.csv("data/plan_metrics_ATG17.csv")
-			var csvdata2 = d3.csv("data/plan_metrics_PA_PRES16.csv")
-			hist(csvdata, csvdata2, "nb_cuts", "#nb_ct", "Number of Cuts");
-
-			function disp_graph() {
-		    	if (document.getElementById("picDD").value == "0"){
-		    		hist(csvdata, csvdata2, "nb_cuts", "#chg_comp", "Number of Cuts")
-		    	}else if (document.getElementById("picDD").value == "1"){
-		    		hist(csvdata, csvdata2, "egs", "#chg_comp", "Efficiency Gap")
-		    	}else{
-		    		console.log("nothing")
-		    	}
-	    	}
+			startHere();
 		</script>
 		
 		<div id="nb_ct" class="graph"></div>
+		<div id="egs" class="graph"></div>
 
-	    <select id="picDD" onchange="disp_graph()">
+	    <select id="picDD" onchange="changeHist()">
 	        <option value="0" selected>Mean-Median</option>
 	        <option value="1">Efficiency Gap</option>
 	        <option value="2">Number of Seats won by Democratic</option>
 	        <option value="3">Number of Cuts</option>
 	    </select>
+	    <script type="text/javascript">
+	    	function changeHist() {
+	    		if (document.getElementById("picDD")=="1"){
+	    			hist(csvdata,csvdata2,"nb_cuts", "#nb_ct", "Number of Cuts")
+	    		}
+		    	else if (document.getElementById("picDD")=="2"){
+		    		hist(csvdata,csvdata2,"egs", "#egs", "Number of Cuts")
+		    	}
+		    };
+	    </script>
+<!-- 
+	    <script text = "text/javascript">
+	    var imageList = [
+		    "images/compare/mms.png",
+		    "images/compare/egs.png",
+		    "images/compare/hmss.png",
+		    "images/compare/nb_cuts.png"];
 
-	    <div id = "chg_comp" class = "graph"> </div>
+			$('#picDD').change(function () {
+			    var val = parseInt($('#picDD').val());
+			    $('div').attr("graph",imageList[val]);
+			});
+	    </script> -->
+
 <!-- egs	hmss	mms	nb_cuts	perc_dem_vote	most_democratic_district_vote_share	most_rep_district_vote_share	n_vote_dem	total_n_votes -->
 		<br>
 		<footer>
