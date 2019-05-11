@@ -12,11 +12,11 @@ function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
 
   var maxbin1 = d3.max(csvdata, function(d) { return d[col]; });
   var maxbin2 = d3.max(csvdata2, function(d) { return d[col]; });
-  var maxbin = Math.max(maxbin1, maxbin2)
+  var maxbin = Math.max(maxbin1, maxbin2)+1
 
   var minbin1 = d3.min(csvdata, function(d) { return d[col]; });
   var minbin2 = d3.min(csvdata2, function(d) { return d[col]; });
-  var minbin = Math.min(minbin1, minbin2)
+  var minbin = Math.min(minbin1, minbin2)-1
 
   var xScale = d3.scaleLinear()
   .domain([minbin, maxbin])
@@ -28,7 +28,7 @@ function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
   var histogram = d3.histogram()
   .value(function(d) { return d[col]; })
   .domain(xScale.domain())
-  .thresholds(xScale.ticks(20)); // split into 20 bins
+  .thresholds(xScale.ticks(30)); // split into 30 bins
 
   
   svg = d3.select(var_svg_id).append("svg")
@@ -42,19 +42,6 @@ function hist(csvdata, csvdata2, col, var_svg_id, x_lab) {
   var bins2 = histogram(csvdata2)
 
   yScale.domain([0, d3.max(bins, function(d) { return d.length; })]);
-
-  // set up the bars
-  // var bar = svg.selectAll(".bar")
-  // .data(bins)
-  // .enter()  
-  // .append("g")
-  // .attr("class", "bar")
-  // .attr("transform", function(d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; });
-   
-  // var rects = bar.append("rect")
-  // .attr("x", 1)// move 1px to right
-  // .attr("width", xScale(bins[0].x1) - xScale(bins[0].x0) - 1)
-  // .attr("height", function(d) { return height - yScale(d.length); });
   
   svg.selectAll("rect")
   .data(bins)
