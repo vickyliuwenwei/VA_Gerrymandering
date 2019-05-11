@@ -77,27 +77,29 @@ Range=function(_parentElement, _data, _filterData){
 
       } else {
 
-        // create histograms for Part ii
-        makeHist_egs2(data, "egs", "#egs2", "Efficiency Gap");
-        makeHist_cuts2(data, "nb_cuts", "#cuts2" , "Number of Cuts");
-        makeHist_mms2(data, "mms", "#mms2", "Mean - Median");
-        makeHist_hmss2(data, "hmss", "#hmss2", 
-                "Number of seats won by democrats");
-        makeHist_votes2(data, "most_democratic_district_vote_share", "#p_votes2", 
-            "Percentage Democratic Votes in the most Democratic district");
+        if (path == "data/VA_data/plan_metrics_ATG17.csv"){
+            // create histograms for Part ii
+            makeHist_egs2(data, "egs", "#egs2", "Efficiency Gap");
+            makeHist_cuts2(data, "nb_cuts", "#cuts2" , "Number of Cuts");
+            makeHist_mms2(data, "mms", "#mms2", "Mean - Median");
+            makeHist_hmss2(data, "hmss", "#hmss2", 
+                    "Number of seats won by democrats");
+            makeHist_votes2(data, "most_democratic_district_vote_share", "#p_votes2", 
+                "Percentage Democratic Votes in the most Democratic district");
 
-        barCut = svg_nb_cuts2.append("rect");
-        barVotes = svg_p_votes2.append("rect");
-        barMms = svg_mms2.append("rect");
-        barHmss = svg_hmss2.append("rect");
-        barEgs = svg_egs2.append("rect");
+            barCut = svg_nb_cuts2.append("rect");
+            barVotes = svg_p_votes2.append("rect");
+            barMms = svg_mms2.append("rect");
+            barHmss = svg_hmss2.append("rect");
+            barEgs = svg_egs2.append("rect");
 
 
-        labelCut = svg_nb_cuts2.append("text");
-        labelVote = svg_p_votes2.append("text");
-        labelMms = svg_mms2.append("text");
-        labelHmss = svg_hmss2.append("text");
-        labelEgs = svg_egs2.append("text");
+            labelCut = svg_nb_cuts2.append("text");
+            labelVote = svg_p_votes2.append("text");
+            labelMms = svg_mms2.append("text");
+            labelHmss = svg_hmss2.append("text");
+            labelEgs = svg_egs2.append("text");
+        }
 
 
 
@@ -417,12 +419,12 @@ var drag_min = d3.drag()
 function changeDataPath(){
     var selectionVal = d3.select('#chooseData').property('value');
     if (selectionVal == 0){
-        path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/VA_data/plan_metrics_ATG17.csv";
+        path = "data/VA_data/plan_metrics_ATG17.csv";
         HISTOGRAM_BUCKET_SIZE = 4;
         numBuckets = 200 / HISTOGRAM_BUCKET_SIZE;
         n_median_seats = 5;
     } else {
-        path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/PA_data/plan_metrics_PA_PRES16.csv";
+        path = "data/PA_data/plan_metrics_PA_PRES16.csv";
         HISTOGRAM_BUCKET_SIZE = 5;
         numBuckets = Math.round( 200 / HISTOGRAM_BUCKET_SIZE);
         n_median_seats = 10;

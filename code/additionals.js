@@ -5,6 +5,20 @@ var imageList = [
             "images/compare/hmss.png",
             "images/compare/nb_cuts.png"];
 
+var data = ["Option 1", "Option 2", "Option 3"];
+
+var select = d3.select('body')
+  .append('select')
+    .attr('class','select')
+    .on('change',onchange)
+
+function onchange() {
+    selectValue = d3.select('.select').property('value')
+    d3.select('body')
+        .append('p')
+        .text(selectValue + ' is the last selected option.')
+};
+
 var update = function(){
     fv.update_range();
 };
@@ -28,7 +42,7 @@ var dataLoaded = function(error,_mapData,_filterData){
     var filterData = _filterData;
     fv = new Range('#Range',mapData, filterData);
 };
-var path = "data/VA_data/plan_metrics_ATG17.csv";
+var path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/VA_data/plan_metrics_ATG17.csv";
 var startHere = function(path){
     var q = d3.queue();
     q.defer(d3.csv, path)
