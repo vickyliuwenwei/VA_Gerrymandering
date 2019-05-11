@@ -5,6 +5,12 @@ var imageList = [
             "images/compare/hmss.png",
             "images/compare/nb_cuts.png"];
 
+$('#picDD').change(function () {
+    var val = parseInt($('#picDD').val());
+    $('div').attr("graph",imageList[val]);
+    $('img').attr("src",imageList[val]);
+}
+
 var update = function(){
     fv.update_range();
 };
