@@ -48,7 +48,7 @@
 			var startHere = function(){
 				var q = d3.queue();
 				q.defer(d3.csv, "data/plan_metrics_ATG17.csv")
-				.defer(d3.csv, "data/plan_metrics_ATG17_2.csv")
+				.defer(d3.csv, "data/plan_metrics_PA_PRES16.csv")
 				.await(dataLoaded);
 			};
 
@@ -78,7 +78,7 @@
 			    $('img').attr("src",imageList[val]);
 			});
 	    </script>
-
+<!-- egs	hmss	mms	nb_cuts	perc_dem_vote	most_democratic_district_vote_share	most_rep_district_vote_share	n_vote_dem	total_n_votes -->
 		<br>
 		<footer>
             <p>&copy; Copyright 2019 &bull; Vicky </p>
