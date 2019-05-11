@@ -55,99 +55,89 @@
             <h3>Interactive plan metric distributions</h3>
         </div>
 
-        <div class = "frame2">
-            <div class = "left">
+        <div class = "left">
 
-                <p> Here are the definitions for you to choose from </p>
+            <p> Here are the definitions for you to choose from </p>
 
-                <select id="description" onchange="disp_text()">
-                    <option value="0">Choose one definition: </option>
-                    <option value="3">Number of Seats won by Democratic</option>
-                    <option value="1">Mean-Median</option>
-                    <option value="2">Efficiency Gap</option>
-                    <option value="4">Number of Cuts</option>
-                </select>
+            <select id="description" onchange="disp_text()">
+                <option value="0">Choose one definition: </option>
+                <option value="1">Number of Cuts</option>
+                <option value="2">Democratic vote shares for the most democratic district</option>
+                <option value="3">Mean-Median</option>
+                <option value="3">Number of Seats won by Democratic</option>
+                
+                <option value="2">Efficiency Gap</option>
+                
+            </select>
 
-                <div id="message"></div>
+            <div id="message"></div>
 
-                <br>
+            <br>
 
-                <div class="side-filter">
-                    <p>Choose a metric to filter on:</p><br>
-                    <div class="control">
-                        <label class="radioMetric">
-                             Number of cuts
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
-                        <br>
-                        <label class="radioMetric">
-                            Democratic vote shares for the most democratic district
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
-                        
-                        <br>
-                        <label class="radioMetric">
-                            Mean-Median
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
-                        <br>
-                        <label class="radioMetric">
-                            Number of Democratic seats
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
-                        <br>
+            
 
-                        <label class="radioMetric">
-                             Efficiency gap
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
-                    </div>
+        </div>
+
+        <div class = "right">
+            <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
+
+            <select id="chooseData" onchange="changeDataPath()">
+                <option value="0" selected >Virgina</option>
+                <option value="1">Pennsylvania</option>
+            </select>
+
+            <div class="side-filter">
+
+                <p>Choose a metric to filter on:</p><br>
+
+                <div class="control">
+                    <label class="radioMetric">Number of cuts</label>
+                    <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
+                    <label class="radioMetric">Democratic vote shares for the most democratic district</label>
+                    <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
+                    <label class="radioMetric">Mean-Median</label>
+                    <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
+                    <label class="radioMetric">Number of Democratic seats</label>
+                    <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
+                    <label class="radioMetric">Efficiency gap</label>
+                    <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
                 </div>
             </div>
 
-            <div class = "right">
-                <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
 
-                <select id="chooseData" onchange="changeDataPath()">
-                    <option value="0" selected >Virgina</option>
-                    <option value="1">Pennsylvania</option>
-                </select>
+            <div id="vaContainer" >
+                <div class="column">
+                        <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
+                        <svg id="nb_cuts"> 
+                            <br>s
+                        </svg>
+                </div>
 
+                <div class="column">
+                        <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
+                        <svg id="p_votes">
+                            <br>
+                        </svg>
+                </div>
+            
+                <div class="column">
+                        <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
+                        <svg id="mms">
+                            <br>
+                        </svg>
+                </div>
 
-                <div id="vaContainer" >
-                    <div class="column">
-                            <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
-                            <svg id="nb_cuts"> 
-                                <br>s
-                            </svg>
-                    </div>
+                <div class="column">   
+                        <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
+                        <svg id="hmss">
+                            <br>
+                        </svg>
+                </div>
 
-                    <div class="column">
-                            <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
-                            <svg id="p_votes">
-                                <br>
-                            </svg>
-                    </div>
-                
-                    <div class="column">
-                            <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
-                            <svg id="mms">
-                                <br>
-                            </svg>
-                    </div>
-
-                    <div class="column">   
-                            <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
-                            <svg id="hmss">
-                                <br>
-                            </svg>
-                    </div>
-
-                    <div class="column">
-                            <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
-                            <svg id = "egs">
-                            </svg>
-                    </div>
+                <div class="column">
+                        <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
+                        <svg id = "egs">
+                        </svg>
                 </div>
             </div>
         </div>
