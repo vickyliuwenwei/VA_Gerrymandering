@@ -5,8 +5,7 @@ footer{
   margin-top: 10%;
 }
 .frame1{
-  background-image: url(images/background1.png);
-  position: absolute;
+  position: relative;
 }
 .title{
   left: 50%;
@@ -18,13 +17,18 @@ footer{
 .explain{
   position: absolute;
   top: 8px;
-  opacity: 0.5;
+  opacity: 1;
   background-color: #ffffff;
 }
+.explain p {
+  margin: 5%;
+  font-weight: bold;
+  color: #000000;
+}
 
-/*.bgrd{
-  opacity: 0.5;
-}*/
+.bgrd{
+  left:50%;
+}
 
 body{
   padding: 1em;
