@@ -432,18 +432,18 @@ function changeDataPath(){
     startHere(path);
 };
 
-
-
 function disp_text() {
     if (document.getElementById("description").value == "1"){
         document.getElementById("message").innerHTML = "If we split the maps into tiny squares, the number of cut edges between the districts in a particular plan."+"\n"+"High number implies unconstitutional gerrymandering";
     } else if (document.getElementById("description").value == "2"){
-        document.getElementById("message").innerHTML = "(# wasted votes by party 1 - # wasted votes by party 2) / # total votes = the difference between the parties' respective wasted votes, divided by the total number of votes cast in the election";
-    }  else if (document.getElementById("description").value == "3"){
-        document.getElementById("message").innerHTML = "This is the number of seats won by Democratic party in selected state";
-    }  else if (document.getElementById("description").value == "4"){
-        document.getElementById("message").innerHTML = "When you split a state into squares, the number of times each districts' boarder were cut.";
-    }else{
+        document.getElementById("message").innerHTML = "How democratic is the most democratic congressional district in the state?"+"\n"+"A high percentage implies partisan imbalance.";
+    } else if (document.getElementById("description").value == "3"){
+        document.getElementById("message").innerHTML = "The difference between the average vote share of either party across all districts from the median vote share of the same party across all districts."+"\n"+"A negative mean-median difference indicates that the examined party has an advantage; a positive difference indicates that the examined party is disadvantaged.";
+    } else if (document.getElementById("description").value == "4"){
+        document.getElementById("message").innerHTML = "Number of seats won by Democrats out of the total number of electoral seats."+"\n"+"This simply indicates the voting outcome distribution from the global universe of possibilities across 100,000 simulated district plans; does not explicitly indicate if gerrymandering has taken place.";
+    } else if(document.getElementById("description").value == "5"){
+        document.getElementById("message").innerHTML = "The difference between the parties' respective wasted votes, divided by the total number of votes cast in the election"+"\n"+"It has been proposed that 8% in state legislative maps should be used as minimum thresholds for determining gerrymandering has taken place.";
+    } else{
         document.getElementById("message").innerHTML = "";
     }        
 };

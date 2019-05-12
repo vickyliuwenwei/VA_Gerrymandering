@@ -94,17 +94,14 @@
                 <select id="description" onchange="disp_text()">
                     <option value="0">Metrics definition: </option>
                     <option value="1">Number of Cuts</option>
-                    <option value="3">Number of Seats won by Democratic</option>
-                    
-                    <option value="2">Efficiency Gap</option>
-                    <option value="4">Number of Cuts</option>
+                    <option value="2">% of Democratic Votes in the Most Democratic District:</option>
+                    <option value="3">Mean Median</option>
+                    <option value="4">Number of seats won by Democrats</option>
+                    <option value="5">Efficiency gap</option>
                 </select>
-
                 <div id="message"></div>
-
                 <br>
             </div>
-
 
         
             <div id = "right2">
@@ -118,7 +115,9 @@
 
 
                 <div class="side-filter">
-                    <p>Choose a metric to filter on:</p><br>
+                    <p>Now, choose a particular metric you are interested in and choose what you consider as a reasonable range of values using the sliding bar filtering function. Observe what this does to the distributions of other metrics!
+                    </p>
+                    <br>
                     <div class="control">
                         <label class="radioMetric">
                              Number of cuts
