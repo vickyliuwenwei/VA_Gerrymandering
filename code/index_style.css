@@ -13,6 +13,7 @@ footer{
 .sub-title{
   text-align: center;
 }
+
 .explain{
   position: absolute;
   top: 8px;
@@ -30,12 +31,13 @@ footer{
   margin-right: auto;
 /*  margin: 5%;*/
   opacity: 0.3;
-  width: 100vw;
+  width: 90vw;
 }
 
 body{
   padding: 1em;
 }
+
 .left {
   position: relative;
   left: 0px;
