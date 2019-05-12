@@ -17,7 +17,7 @@ footer{
 .explain{
   position: absolute;
   top: 8px;
-  opacity: 0.5;
+  opacity: 0.8;
   background-color: #ffffff;
 }
 .explain p {
@@ -30,6 +30,7 @@ footer{
   margin-left: auto;
   margin-right: auto;
   margin: 5%;
+  opacity: 0.3;
 }
 
 body{
