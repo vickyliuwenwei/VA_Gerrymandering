@@ -4,12 +4,26 @@ footer{
   margin-bottom: 2%;
   margin-top: 10%;
 }
-
+.frame1{
+  position: relative;
+}
+.title{
+  position: absolute;
+  left: 50%;
+}
+.sub-title{
+  position: absolute;
+  left:50%;
+}
+.explain{
+  position: absolute;
+  top: 8px;
+}
+.bgrd{
+  opacity: 0.5;
+}
 body{
   padding: 1em;
-}
-.frame2{
-  
 }
 .left {
   position: relative;
