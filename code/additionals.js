@@ -3,7 +3,8 @@ var imageList = [
             "images/compare/mms.png",
             "images/compare/egs.png",
             "images/compare/hmss.png",
-            "images/compare/nb_cuts.png"];
+            "images/compare/nb_cuts.png",
+            "images/compare/vote_share.png"];
 
 $('#picDD').change(function() {
     var val = parseInt($('#picDD').val());
