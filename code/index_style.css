@@ -19,12 +19,15 @@ footer{
   top: 8px;
   opacity: 0.8;
   background-color: #ffffff;
-}
-.explain p {
   margin: 5%;
   font-weight: bold;
   color: #000000;
 }
+/*.explain p {
+  margin: 5%;
+  font-weight: bold;
+  color: #000000;
+}*/
 
 .bgrd{
   margin-left: auto;
