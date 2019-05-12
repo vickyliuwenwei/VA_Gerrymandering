@@ -436,7 +436,7 @@ function changeDataPath(){
 
 function disp_text() {
     if (document.getElementById("description").value == "1"){
-        document.getElementById("message").innerHTML = "The mean-median difference is simply calculated by subtracting the average vote share of either party across all districts from the median vote share of the same party across all districts. A negative mean-median difference indicates that the examined party has an advantage; a positive difference indicates that the examined party is disadvantaged";
+        document.getElementById("message").innerHTML = "If we split the maps into tiny squares, the number of cut edges between the districts in a particular plan."+"\n"+"High number implies unconstitutional gerrymandering";
     } else if (document.getElementById("description").value == "2"){
         document.getElementById("message").innerHTML = "(# wasted votes by party 1 - # wasted votes by party 2) / # total votes = the difference between the parties' respective wasted votes, divided by the total number of votes cast in the election";
     }  else if (document.getElementById("description").value == "3"){
