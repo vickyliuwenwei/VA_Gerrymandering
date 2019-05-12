@@ -343,14 +343,17 @@
                                 "images/compare/nb_cuts.png",
                                 "images/compare/vote_share.png"];
 
-                    $('#picDD').change(function() {
-                        var val = parseInt($('#picDD').val());
-                        $('div').attr("graph",imageList[val]);
-                        $('img').attr("src",imageList[val]);
+                    $( document ).ready(function() {
+                        $('#picDD').change(function () {
+                            var val = parseInt($('#picDD').val());
+                            $('img').attr("src",pictureList[val]);
+                        });
                     });
                 </script>
+
                 <img src="images/compare/mms.png"/>
-                <select id="picDD">
+
+                <select id="picDD" onchange="setPicture();">
                     <option value="0" selected>Mean-Median</option>
                     <option value="1">Efficiency Gap</option>
                     <option value="2">Number of Seats won by Democratic</option>
