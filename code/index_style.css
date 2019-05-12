@@ -13,11 +13,13 @@ footer{
 .sub-title{
   left:50%;
 }
+
 .explain{
   position: absolute;
   top: 8px;
   opacity: 1;
 }
+
 .bgrd{
   opacity: 0.5;
 }
