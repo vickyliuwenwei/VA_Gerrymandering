@@ -5,8 +5,8 @@ footer{
   margin-top: 10%;
 }
 .frame1{
-  background: "images/Background1.png";
-  position: relative;
+  background: url("images/Background1.png");
+  position: absolute;
 }
 .title{
   left: 50%;
