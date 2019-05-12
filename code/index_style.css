@@ -8,16 +8,16 @@ footer{
   position: relative;
 }
 .title{
-  left: 50%;
+  text-align: center;
 }
 .sub-title{
-  left:50%;
+  text-align: center;
 }
 
 .explain{
   position: absolute;
   top: 8px;
-  opacity: 1;
+  opacity: 0.5;
   background-color: #ffffff;
 }
 .explain p {
@@ -27,7 +27,9 @@ footer{
 }
 
 .bgrd{
+  position: absolute;
   left:50%;
+  margin: 5%;
 }
 
 body{
