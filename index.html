@@ -343,11 +343,9 @@
                                 "images/compare/nb_cuts.png",
                                 "images/compare/vote_share.png"];
 
-                    $( document ).ready(function() {
-                        $('#picDD').change(function () {
-                            var val = parseInt($('#picDD').val());
-                            $('img').attr("src",pictureList[val]);
-                        });
+                    $('#picDD').change(function () {
+                        var val = parseInt($('#picDD').val());
+                        $('img').attr("src",imageList[val]);
                     });
                 </script>
 
