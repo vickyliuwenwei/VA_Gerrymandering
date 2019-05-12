@@ -12,18 +12,18 @@
         <link rel="stylesheet" href="code/slider.css">
         <link rel="stylesheet" href="code/index_style.css">
         
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <!-- <script src="d3.min.js"></script> -->
-        <script src="https://d3js.org/d3-queue.v3.min.js"></script>
-        <script src="//d3js.org/d3.v4.min.js"></script>
-        <script src="code/lib/d3.tip.v0.6.3.js"></script>
-        <script src="code/buildHistograms.js"></script>
-        <script src="code/updateRange4.js"></script>
-        <script src="code/additionals.js"></script>
+        <script type="text/javascript" src="https://d3js.org/d3-queue.v3.min.js"></script>
+        <script type="text/javascript" src="//d3js.org/d3.v4.min.js"></script>
+        <script type="text/javascript" src="code/lib/d3.tip.v0.6.3.js"></script>
+        <script type="text/javascript" src="code/buildHistograms.js"></script>
+        <script type="text/javascript" src="code/updateRange4.js"></script>
+        <script type="text/javascript" src="code/additionals.js"></script>
         <!-- <script src="code/lib/d3.v3.min.js"  charset="utf-8"></script> -->
 
-        <script>
+        <script type="text/javascript">
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -34,65 +34,65 @@
 
 
         <title>Visualizing Gerrymandering</title>
-        <!-- <link rel="stylesheet" type="text/css" href="mpg.css" /> -->
         
     </head>
 
     <body>
-         <header class = "title"><b>6.894 Interactive Data Visualization Final Project</b></header>
-        <div class = "vis-title">
-            <font size = 10>
+        <div id="intro">
+            <header><b>6.894 Interactive Data Visualization Final Project</b></header>
+            <div class = "vis-title">
                 <b>Visualizing Gerrymandering</b>
-            </font>
-        </div>
-        <div class = "sub-title">
-            <p>
-                Team Members: Chuyan Millie Huang, Wenwei Vicky Liu, Kim-Anh Nhi
-                <br>
-                In Collaboration with the Metric Geometry and Gerrymandering Group (MGGG) @ MIT CSAIL
-            </p>
         </div>
 
-        <div class = "frame1">
-            <div class = "explain">
-                <p> 
-                    <b>Gerrymandering</b> is a practice intended to establish a political advantage for a particular party of group by manipulating district boundaries.
-
-                    Historically, different metrics of gerrymandering have been presented to courts to support rationales to claim illegal gerrymandering. There is not yet a universally agreed-upon metric for evaluating splitting of municipal units with districting plans. Commonly used metrics usually focus on either <i> geographical compactness </i> (number of cuts and splits) or <i> partisan symmetry and vote efficiency </i> (efficiency gap, mean-median, number of seats won by a certain Party).
+            <div class = "sub-title">
+                <p>
+                    Team Members: Chuyan Millie Huang, Wenwei Vicky Liu, Kim-Anh-Nhi Nguyen
                 </p>
                 <p>
-                    However, there is intricate interplay between the legal constraints and the measurements of interes, and among the measurements themselves. Researchers have struggled to understand the trade-offs between these intertwined metrics.
-                </p>
-                <p>
-                    We partner with researchers from the Metric Geometry and Gerrymandering Group (MGGG) at MIT CSAIL to design an interactive data visualization system to:
-                </p>
-                <p>
-                <ol>
-                    <li>
-                        Unveil some hidden interactions between these metrics;
-                    </li>
-                    <li>
-                        Demystify some common false beliefs;
-                    </li>
-                    <li>
-                        Propose a novel way of looking at gerrymandering for policy makers and the general public.
-                    </li>
-                </ol>
+                    In Collaboration with the Metric Geometry and Gerrymandering Group (MGGG) @ MIT CSAIL
                 </p>
             </div>
+        </div>
 
-            <figure><img src="images/background2.png" class="bgrd"/></figure>
+        <div id = "frame1">
+            <div id = "insideFrame1">
+                <img src="images/background2.png" class="bgrd" alt="background">
+                <div id="explain">
+                    <p> 
+                        <b>Gerrymandering</b> is a practice intended to establish a political advantage for a particular party of group by manipulating district boundaries.
 
-            <p>Please, see our write-up <a href="http://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/results.html">here</a>.</p>
+                        Historically, different metrics of gerrymandering have been presented to courts to support rationales to claim illegal gerrymandering. There is not yet a universally agreed-upon metric for evaluating splitting of municipal units with districting plans. Commonly used metrics usually focus on either <i> geographical compactness </i> (number of cuts and splits) or <i> partisan symmetry and vote efficiency </i> (efficiency gap, mean-median, number of seats won by a certain Party).
+                    </p>
+                    <p>
+                        However, there is intricate interplay between the legal constraints and the measurements of interes, and among the measurements themselves. Researchers have struggled to understand the trade-offs between these intertwined metrics.
+                    </p>
+                    <p>
+                        We partner with researchers from the Metric Geometry and Gerrymandering Group (MGGG) at MIT CSAIL to design an interactive data visualization system to:
+                    </p>
+                    <ol>
+                        <li>
+                            Unveil some hidden interactions between these metrics;
+                        </li>
+                        <li>
+                            Demystify some common false beliefs;
+                        </li>
+                        <li>
+                            Propose a novel way of looking at gerrymandering for policy makers and the general public.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+            
+
+
+        <div class="introFrame">
+                <h3>Interactive plan metric distributions</h3>
         </div>
         
-        <br>
 
         <div id = "frame2">
-            <div class="filter_title">
-                <h3>Interactive plan metric distributions</h3>
-            </div>
-
             <div id = "left2">
 
                 <p> Here are some of the common metrics used to measure gerrymandering. Click on any metric to see their definition and common interpretation.
@@ -107,10 +107,97 @@
                     <option value="5">Efficiency gap</option>
                 </select>
                 <div id="message"></div>
-                <br>
                 <p>
                     Now, choose a particular metric you are interested in and choose what you consider as a reasonable range of values using the sliding bar filtering function. Observe what this does to the distributions of other metrics!
                 </p>
+
+                <p id="metricText"><b>Choose a metric to filter on</b></p>
+                    <br>
+                    <div class="side-filter">
+                    <div class="filterButtons">
+                            <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="checked" onclick="startHere(path)">
+                            <label class="radioMetric">
+                                 Number of cuts
+                            </label>
+                            <br>
+                            
+                            <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
+                            <label class="radioMetric">
+                                Democratic vote shares for the most democratic district
+                            </label>
+                            <br>
+                            <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
+                            <label class="radioMetric">
+                                Mean-Median
+                            </label>
+                            <br>
+                            
+                            <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
+                            <label class="radioMetric">
+                                Number of Democratic seats
+                            </label>
+                            <br>
+
+                            
+                            <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
+                            <label class="radioMetric">
+                                 Efficiency gap
+                            </label>
+                    </div>
+                </div>
+            </div>
+
+        
+            <div id = "right2">
+                <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
+
+                <select id="chooseData" onchange="changeDataPath()">
+                    <option value="0" selected >Virgina</option>
+                    <option value="1">Pennsylvania</option>
+                </select>
+                <br>              
+
+
+                <div class="vaContainer1">          
+                
+                    <div class="column1">
+                            <p class="title_hist_cut"><b>Number of cuts</b></p>
+                            <svg id="nb_cuts"> 
+                                <br>
+                            </svg>
+                    </div>
+                    <div class="column1">
+                            <p class="title_hist"><b>Percentage of Democratic Votes for the Most Democratic District</b></p>
+                            <svg id="p_votes">
+                                <br>
+                            </svg>
+                    </div>
+                </div>
+                <div class="vaContainer1">
+                    <div class="column">
+                            <p class="title_hist"><b>Mean-Median</b></p>
+                            <svg id="mms">
+                                <br>
+                            </svg>
+                    </div>
+                    <div class="column">   
+                            <p class="title_hist"><b>Number of Democratic seats</b></p>
+                            <svg id="hmss">
+                                <br>
+                            </svg>
+                    </div>
+                    <div class="column">
+                            <p class="title_hist"><b>Efficiency Gap</b></p>
+                            <svg id = "egs">
+                            </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id = "frame3">
+            <div id="textToShow">
                 <p>
                     Now, using the same tool above, let’s take a look at some common beliefs:
                 </p>
@@ -144,93 +231,11 @@
                     After you have spent some time playing around with the tool on the right, check the section below.
                 </p>
             </div>
-
-        
-            <div id = "right2">
-                <p>To start with, please choose a state to analyze: Virgina or Pennsylvania</p>
-
-                <select id="chooseData" onchange="changeDataPath()">
-                    <option value="0" selected >Virgina</option>
-                    <option value="1">Pennsylvania</option>
-                </select>
-
-
-
-                <div class="side-filter">
-                   
-                    <br>
-                    <div class="control">
-                        <label class="radioMetric">
-                             Number of cuts
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_nb_cuts" checked="true" onclick="startHere(path)">
-                        <br>
-                        <label class="radioMetric">
-                            Democratic vote shares for the most democratic district
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_p_votes" onclick="startHere(path)">
-                        
-                        <br>
-                        <label class="radioMetric">
-                            Mean-Median
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_mms" onclick="startHere(path)">
-                        <br>
-                        <label class="radioMetric">
-                            Number of Democratic seats
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_hmss" onclick="startHere(path)">
-                        <br>
-
-                        <label class="radioMetric">
-                             Efficiency gap
-                        </label>
-                        <input type="radio" name="metric_selection" id="check_selection_egs"  onclick="startHere(path)">
-                    </div>
-                </div>
-
-
-                <div class="vaContainer1">          
+            <p id="didUSee"><b>Did you see? Using Virginia as an example:</b></p>
+            <button type="button" id="reveal" onclick="showText()">Press the button to read some insights</button>
+            <div id="textToHide" style="visibility:hidden">
+                <p>
                 
-                    <div class="column1">
-                            <p class="title_hist">Distribution of the <b>number of cuts</b> across possible districting plans</p>
-                            <svg id="nb_cuts"> 
-                                <br>
-                            </svg>
-                    </div>
-                    <div class="column1">
-                            <p class="title_hist">Distribution of the <b>Democratic votes in the most Democratic district</b> across possible districting plans</p>
-                            <svg id="p_votes">
-                                <br>
-                            </svg>
-                    </div>
-                </div>
-                <div class="vaContainer1">
-                    <div class="column">
-                            <p class="title_hist">Distribution of the <b>mean-median</b> across possible districting plans</p>
-                            <svg id="mms">
-                                <br>
-                            </svg>
-                    </div>
-                    <div class="column">   
-                            <p class="title_hist">Distribution of the <b>number of Democratic seats</b> across possible districting plans</p>
-                            <svg id="hmss">
-                                <br>
-                            </svg>
-                    </div>
-                    <div class="column">
-                            <p class="title_hist">Distribution of the <b>efficiency gap</b> across possible districting plans</p>
-                            <svg id = "egs">
-                            </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div id = "frame3">
-            <p>
-                <b>Did you see? Using Virginia as an example:</b>
             </p>
             <ol>
                 <li>
@@ -246,13 +251,30 @@
             <p>
                 Hopefully, at this point, you are familiarized with the idea of “distribution” of metrics. Often times, political groups come to research scientists asking for fairness evaluation of a certain districting plan. This is not meaningful! We propose that an alternative viable evaluation method would be to compare any particular redistricting plan to the global distributions of all possible plans and the distributions of their corresponding metrics. 
             </p>
+            </div>
+        <script type="text/javascript">
+            var countPress = 0;
+            var textReveal = document.getElementById("textToHide");
+            function showText(){
+                countPress +=1;
+                console.log("countPress = ", countPress, " | countPress%2 =", countPress%2 )
+                if (countPress%2 == 1 ){
+                    textReveal.style.visibility="visible";
+                } else {
+                    textReveal.style.visibility="hidden";
+                }
+            };
+            
+        </script>
         </div>
 
         <!-- Part 2: Given 3 plan maps and let user click one to show plan's 6 metrics on corresponding global distribution -->
+        <div class="introFrame">
+            <h3>
+                Below are three districting plans from Virginia that were generated using simulated data.<br> Can you tell if gerrymandering has taken place?
+            </h3>
+        </div>
         <div id = "frame4">
-            <p>
-                Below are three districting plans that were generated using simulated data. Can you tell if gerrymandering has taken place?
-            </p>
             <div id = "left4">
                 <p>
                     Click on a given map to see their corresponding metrics compared to the global distributions of these metrics. How much of a outlier are they?
@@ -261,46 +283,54 @@
                     You should be able to see that map 1 and 3’s metrics fall very close to the median/mode of the distributions, whereas map 2’s metrics seem like outliers from the distributions. This indicates a high likelihood that gerrymandering has taken place in map 2.
                 </p>
             </div>
+
             
             <div id = "right4">
                 <div id="maps">
-                    <p>Map 1</p>
-                    <img src="images/map10000.png" onclick="map_highlight(1)" />
-                    <p>Map 2</p>
-                    <img src="images/map12000.png" onclick="map_highlight(2)" />
-                    <p>Map 3</p>
-                    <img src="images/map14000.png" onclick="map_highlight(3)" />
+                    <div class="map_indiv">
+                        <p>Map 1</p>
+                        <img src="images/map10000.png" onclick="map_highlight(1)" alt="map1">
+                    </div>
+                    <div class="map_indiv">
+                        <p>Map 2</p>
+                        <img src="images/map12000.png" onclick="map_highlight(2)" alt="map2">
+                    </div>
+                    <div class="map_indiv">
+                        <p>Map 3</p>
+                        <img src="images/map14000.png" onclick="map_highlight(3)" alt="map3">
+                    </div>
 
                 </div>
                 <div class="vaContainer2">
                     <div class="column1">
-                        <p class="title_hist">Distribution of the <b>Number of Cuts</b> across possible districting plans</p>
+                        <p class="title_hist_cut2"><b>Number of Cuts</b></p>
                         <svg id="cuts2"> 
                             <br>
                         </svg>
                     </div>
                     <div class="column1">
-                        <p class="title_hist">Distribution of the <b>Percentage of Democratic Votes for the Most Democratic District</b> across possible districting plans</p>
+                        <p class="title_hist"><b>Percentage of Democratic Votes for the Most Democratic District</b></p>
                         <svg id="p_votes2"> 
                             <br>
                         </svg>
                     </div>
-                    
+                </div>
+                <div class="vaContainer2">
                     <div class="column">
-                        <p class="title_hist">Distribution of the <b>Mean Median</b> across possible districting plans</p>
+                        <p class="title_hist"><b>Mean-Median</b></p>
                         <svg id="mms2"> 
                             <br>
                         </svg>
                     </div>
                     <div class="column">
-                        <p class="title_hist">Distribution of the <b>Number of Democratic Seats</b> across possible districting plans</p>
+                        <p class="title_hist"><b>Number of Democratic Seats</b></p>
                         <svg id="hmss2"> 
                             <br>
                         </svg>
                     </div>
 
                     <div class="column">
-                        <p class="title_hist">Distribution of the <b>Efficiency Gap</b> across possible districting plans</p>
+                        <p class="title_hist"><b>Efficiency Gap</b></p>
                         <svg id="egs2"> 
                             <br>
                         </svg>
@@ -309,11 +339,12 @@
             </div>
         </div>
         
-
+        <div class="introFrame">
+            <h3>
+                Lastly, we want you to understand that states differ drastically in terms of these metrics.<br>Look a look below to see how different the state of Pennsylvania is from Virginia!</h3>
+            
+        </div>
         <div id = "frame5">
-            <p>
-                Lastly, we want you to understand that states differ drastically in terms of these metrics. Look a look below to see how different the state of Pennsylvania is from Virginia!
-            </p>
             <div id = "left5">
                 <p>
                     This is why you should not compare metrics across states - because of differences in inherent geopolitical characteristics for each state.
@@ -335,9 +366,7 @@
             </div>
 
             <div id = "right5">
-
-                <img src="images/compare/mms.png"/>
-
+                <img class="bottomImg" src="images/compare/mms.png" alt="distribution comparison">
                 <select id="picDD">
                     <option value="0" selected>Mean-Median</option>
                     <option value="1">Efficiency Gap</option>
@@ -345,7 +374,6 @@
                     <option value="3">Number of Cuts</option>
                     <option value="4">% of Democratic Votes in the Most Democratic District</option>
                 </select>
-
                 <script type="text/javascript">
                     var imageList = [
                                 "images/compare/mms.png",
@@ -356,14 +384,28 @@
 
                     $('#picDD').change(function () {
                         var val = parseInt($('#picDD').val());
-                        $('img').attr("src",imageList[val]);
+                        $('.bottomImg').attr("src",imageList[val]);
                     });
                 </script>
             </div>
         </div>
         
+        <div id="frame6">
+            
+        </div>
+        <div id="tks">
+            <p>Thank you to:</p>
+            <ul>
+                <li><a href="https://arvindsatya.com/">Arvind Satyanarayan</a>, our professor</li>
+                <li><a href="http://people.csail.mit.edu/soya/">Soya Park</a>, our teaching assistant</li>
+                <li><a href="https://people.csail.mit.edu/jsolomon/">Justin Solomon</a> from the Metric Geometry and Gerrymandering Group</li>
+                <li><a href="https://people.csail.mit.edu/ddeford/">Daryl DeFord</a> from the Metric Geometry and Gerrymandering Group</li>
+            </ul>
+        </div>
+
+        
         <footer>
-            <p>&copy; Copyright 2019 &bull; Millie, Nhi, Vicky </p>
+            <p>&copy; Copyright 2019 &bull; Chuyan Millie Huang, Wenwei Vicky Liu, Kim-Anh-Nhi Nguyen </p>
         </footer>
     </body>
 </html>
