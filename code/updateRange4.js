@@ -216,14 +216,14 @@ Range=function(_parentElement, _data, _filterData){
 
         // threshold bar for MIN
         cutoff_min.attr('x', 0)
-                            .attr('y', -5)//-height
+                            .attr('y', -20)//-height
                             .attr('width', 7)
                             .attr('height', height + 20)
                             .attr("class", "cutoff_min_rect");
 
         thresholdLabel_min.attr('x', 0)
             .attr('y', -30)
-            .attr('text-anchor', 'middle')
+            .attr('text-anchor', 'baseline')
             .attr('class', 'thresholdLabel_min');
 
         graph = true;
