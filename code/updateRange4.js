@@ -211,7 +211,8 @@ Range=function(_parentElement, _data, _filterData){
 
         thresholdLabel_max.attr('x', tx_max - 10)
             .attr('y', -30)
-            .attr('text-anchor', 'hanging')
+            .attr('text-anchor', 'middle')
+            .attr('alignment-baseline','hanging')
             .attr('class', 'thresholdLabel_max');
 
         // threshold bar for MIN
@@ -223,7 +224,8 @@ Range=function(_parentElement, _data, _filterData){
 
         thresholdLabel_min.attr('x', 0)
             .attr('y', -30)
-            .attr('text-anchor', 'baseline')
+            .attr('text-anchor', 'middle')
+            .attr('alignment-baseline', 'baseline')
             .attr('class', 'thresholdLabel_min');
 
         graph = true;
