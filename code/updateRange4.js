@@ -211,7 +211,7 @@ Range=function(_parentElement, _data, _filterData){
 
         thresholdLabel_max.attr('x', tx_max - 10)
             .attr('y', -30)
-            .attr('text-anchor', 'middle')
+            .attr('text-anchor', 'hanging')
             .attr('class', 'thresholdLabel_max');
 
         // threshold bar for MIN
