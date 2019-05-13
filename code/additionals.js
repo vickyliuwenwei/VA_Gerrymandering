@@ -1,17 +1,3 @@
-
-var imageList = [
-            "images/compare/mms.png",
-            "images/compare/egs.png",
-            "images/compare/hmss.png",
-            "images/compare/nb_cuts.png",
-            "images/compare/vote_share.png"];
-
-$('#picDD').change(function() {
-    var val = parseInt($('#picDD').val());
-    $('div').attr("graph",imageList[val]);
-    $('img').attr("src",imageList[val]);
-});
-
 var update = function(){
     fv.update_range();
 };
@@ -35,7 +21,7 @@ var dataLoaded = function(error,_mapData,_filterData){
     var filterData = _filterData;
     fv = new Range('#Range',mapData, filterData);
 };
-var path = "data/VA_data/plan_metrics_ATG17.csv";
+var path = path = "https://github.mit.edu/pages/6894-sp19/Visualizing_Gerrymandering/data/VA_data/plan_metrics_ATG17.csv";
 var startHere = function(path){
     var q = d3.queue();
     q.defer(d3.csv, path)
